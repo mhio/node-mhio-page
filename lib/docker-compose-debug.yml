@@ -1,0 +1,32 @@
+version: "2.1"
+
+services:
+
+  chrome_debug:
+    image: selenium/node-chrome-debug
+    ports:
+    - 59005:5900
+    environment:
+      ID: 5
+      HUB_PORT_4444_TCP_ADDR: selenium_hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      no_proxy: ''
+    networks:
+    - selenium_hub
+
+  firefox_debug:
+    image: selenium/node-firefox-debug
+    ports:
+    - 59006:5900
+    environment:
+      ID: 6
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      no_proxy: ''
+    networks:
+    - selenium_hub
+
+networks:
+  selenium_hub:
+    driver: bridge
+

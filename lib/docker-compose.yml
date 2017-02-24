@@ -1,0 +1,66 @@
+version: "2.1"
+
+services:
+
+  hub:
+    image: selenium/hub
+    ports:
+    - 44444:4444
+    networks:
+    - selenium_hub
+
+  chrome:
+    image: selenium/node-chrome
+    environment:
+      ID: 5
+      HUB_PORT_4444_TCP_ADDR: selenium_hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      no_proxy: ''
+    networks:
+    - selenium_hub
+    depends_on:
+    - hub
+
+  firefox:
+    image: selenium/node-firefox
+    environment:
+      ID: 6
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      no_proxy: ''
+    networks:
+    - selenium_hub
+    depends_on:
+    - hub
+
+#  phantom:
+#    image: selenium/node-phantomjs
+#    ports:
+#    - 44447:4444
+#    - 59007:5900
+#    environment:
+#      ID: 7
+#    networks:
+#    - selenium_hub
+
+#  ie:
+#    ports:
+#    - 44448:4444
+#    - 59008:5900
+#    environment:
+#      ID: 8
+#    networks:
+#    - selenium_hub
+
+#  safari:
+#    ports:
+#    - 44449:4444
+#    - 59009:5900
+#    environment:
+#      ID: 9
+#    networks:
+#    - selenium_hub
+
+networks:
+  selenium_hub:
+    driver: bridge

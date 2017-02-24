@@ -1,0 +1,38 @@
+{
+  "name": "webdriverio-page",
+  "version": "0.1.0",
+  "description": "Page extendable class for running webdriver.io tests",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha",
+    "test:debug": "DEBUG='*' mocha debug",
+    "test:coverage": "istanbul cover _mocha && istanbul check-coverage",
+    "npm:pubtest": "set -uex; npm test; npm version prerelease; npm publish --tag testing",
+    "npm:publish": "set -uex; npm run test:coverage; [ -z \"$(git status --porcelain)\" ]; npm version patch; git push; npm publish; git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deployable/node-webdriverio-page.git"
+  },
+  "keywords": [
+    "deployable",
+    "module"
+  ],
+  "author": "Matt Hoyle <code at deployable.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deployable/node-webdriverio-page/issues"
+  },
+  "homepage": "https://github.com/deployable/webdriverio-page#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "~0.4.5",
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.7",
+    "webdriverio": "^4.6.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.0.1",
+    "debug": "^2"
+  }
+}
