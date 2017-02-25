@@ -1,17 +1,18 @@
-# [webdriverio-page](https://github.com/deployable/webdriverio-page)
+# [deployable-page](https://github.com/deployable/node-deployable-page)
 
-## Page webdriverio class
+## Page testing Webdriver.io Class
 
-This provides a Page class that completes all the standard webdriver tasks required for 
-an application. 
+This provides a `Page` class that contains all the standard webdriver tasks and setup
+required for a web application. 
 
-This class can be extended to match your needs
+This class can be used on it's own but would normally be extended to contain 
+test helpers for your page layouts and components
 
 ## Usage
 
 ```javascript
 
-const { Page } = require('webdriverio-page')
+const { Page } = require('@deployable/page')
 
 class SearchPage extends Page {
 
@@ -45,17 +46,18 @@ lp.google('test').then(res => {
  
 
 ```
-    npm install webdriverio-page --save-dev
+    npm install @deployable/page --save-dev
 
-    yarn add webdriverio-page --dev
+    yarn add @deployable/page --dev
 
 ```
 
 ## About
 
-webdriverio-page is released under the MIT license.
+deployable-page is released under the MIT license.
 
 Copyright 2016 Matt Hoyle - code at deployable.co
 
-https://github.com/deployable/webdriverio-page
+https://github.com/deployable/node-deployable-page
+https://deployable.co/code/node/page
 
