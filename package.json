@@ -1,6 +1,6 @@
 {
   "name": "@deployable/page",
-  "version": "0.0.0",
+  "version": "0.0.1-0",
   "description": "Web Page base class, for running webdriver.io",
   "main": "lib/index.js",
   "scripts": {
