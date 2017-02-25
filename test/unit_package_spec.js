@@ -1,6 +1,6 @@
 const page = require('../')
 
-describe('Unit::deployable::page', function(){
+describe('Unit::page::index', function(){
 
   describe('Includes modules', function(){
   
