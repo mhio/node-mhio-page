@@ -45,11 +45,11 @@ const lp = new SearchPage({
 lp.search('bing','test').then(res => {
   console.log('search', res)
   console.log('title', lp.title())
-  return lp.screenShot('./search.png')
+  return lp.screenShot(path.join(__dirname,'output','search.png')
 })
 .then(res => console.log('ss', res))
 .catch(err => {
- lp.screenShot('./error.png')
+ lp.screenShot(path.join(__dirname,'output','error.png')
  console.error(err)
 })
 
