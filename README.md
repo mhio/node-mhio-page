@@ -1,6 +1,6 @@
 # [deployable-page](https://github.com/deployable/node-deployable-page)
 
-## Page testing Webdriver.io Class
+## Page layout and component testing with Webdriver.io
 
 This provides a `Page` class that contains all the standard webdriver tasks and setup
 required for a web application. 
