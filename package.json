@@ -26,7 +26,11 @@
   "homepage": "https://github.com/deployable/node-deployable-page#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "express": "^4.15.2",
     "istanbul": "~0.4.5",
+    "lodash": "^4.17.4",
+    "lodash.find": "^4.6.0",
     "mocha": "^3.1.2",
     "sinon": "^1.17.7"
   },
