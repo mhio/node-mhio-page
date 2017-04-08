@@ -29,7 +29,7 @@ describe('Integration::page::Page', function(){
         expect( page.appserver ).to.be.ok
         done()
       }
-      page = new Page({ app:app, app_callback:fn })
+      page = new Page({ app:app, cb_app:fn })
     })
 
   })
