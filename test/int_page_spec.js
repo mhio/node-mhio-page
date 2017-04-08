@@ -3,6 +3,8 @@ const debug = require('debug')('dply:test:int:page')
 const { Page, Docker, Browsers } = require('../')
 const _ = require('lodash')
 const { TestEnv } = require('@deployable/test')
+const Promise = require('bluebird')
+
 
 // Test fixture app
 const app = require('express')()
