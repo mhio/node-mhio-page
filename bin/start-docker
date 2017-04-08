@@ -2,13 +2,15 @@
 
 const { Docker } = require("../")
 
-const browser = process.argv[2]
+const browser = process.argv[2] || 'chrome'
 Docker.run(browser)
   .then(res => console.log(res))
   .catch(error => {
     console.error('Error starting docker container')
-    console.error(' ', error.results.exit_code)
-    console.error(' ', error.results.stderr.join(''))
-    console.error(' ', error.results.stdout.join(''))
+    if (error.results){
+      console.error(' ', error.results.exit_code)
+      console.error(' ', error.results.stderr.join(''))
+      console.error(' ', error.results.stdout.join(''))
+    }
     process.exit(1)
   })
