@@ -1,8 +1,13 @@
+# npm/yarn
 node_modules/
 npm-debug*.log
 yarn-error.log
+
+# Output
 test/output
 coverage/
 pkg/
 tmp/
+
+# Example output
 *.png
