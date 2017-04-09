@@ -37,10 +37,10 @@ class SearchPage extends Page {
 
 }
 
-const lp = new LandingPage({
+const lp = new SearchPage({
   host: 'www.google.com',
   scheme: 'https',
-  remote_browser: 'firefox'
+  browser: 'firefox'
 })
 
 lp.google('test').then(res => {
