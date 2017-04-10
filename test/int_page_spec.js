@@ -18,22 +18,39 @@ describe('Integration::page::Page', function(){
 
   Browsers.thatHaveAContainer().forEach(browser => {
 
+    describe(`setup ${browser}`, function(){
+
+      it('should create docker Page/app', function(){
+        this.timeout(15000)
+        let page = new Page({
+          app: app,
+          docker: true
+        })
+        return page.promise
+      })
+
+      it('should create standard Page/app', function(){
+        this.timeout(15000)
+        let page = new Page({
+          app: app,
+          host: Page.ip()
+        })
+        return page.promise
+      })
+
+    })
+
     describe(`${browser}`, function(){
 
       this.timeout(5000)
       let page = null
 
-      before('starting container', function(){
-        this.timeout(15000)
-        return Docker.up(browser)
-      })
-
       before('create Page/app', function(){
-        this.timeout(30000)
+        this.timeout(15000)
         page = new Page({
           app: app,
           browser: browser,
-          host: Page.ip()
+          docker: true
         })
         return page.promise
       })
