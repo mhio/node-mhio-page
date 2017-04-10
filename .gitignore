@@ -11,3 +11,5 @@ tmp/
 
 # Example output
 *.png
+
+.vagrant/
