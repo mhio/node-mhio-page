@@ -35,7 +35,7 @@ describe('Integration::page::Docker', function(){
       })
 
       it('should up', function(){
-        this.timeout(15000)
+        this.timeout(4000)
         return expect( Docker.up(browser) ).to.eventually.eql( {state: 'running'} )
       })
 
@@ -45,7 +45,7 @@ describe('Integration::page::Docker', function(){
       })
 
       it('should up', function(){
-        this.timeout(3000)
+        this.timeout(4000)
         return expect( Docker.up(browser) ).to.eventually.eql( {state: 'running'} )
       })
 
