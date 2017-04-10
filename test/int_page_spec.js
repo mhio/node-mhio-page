@@ -20,9 +20,15 @@ describe('Integration::page::Page', function(){
 
     describe(`setup ${browser}`, function(){
 
+      let page = null
+
+      afterEach(function(){
+        return page.end()
+      })
+
       it('should create docker Page/app', function(){
         this.timeout(15000)
-        let page = new Page({
+        page = new Page({
           app: app,
           docker: true
         })
@@ -31,7 +37,7 @@ describe('Integration::page::Page', function(){
 
       it('should create standard Page/app', function(){
         this.timeout(15000)
-        let page = new Page({
+        page = new Page({
           app: app,
           host: Page.ip()
         })
@@ -39,6 +45,7 @@ describe('Integration::page::Page', function(){
       })
 
     })
+
 
     describe(`${browser}`, function(){
 
@@ -55,8 +62,8 @@ describe('Integration::page::Page', function(){
         return page.promise
       })
 
-      after('end Page/app', function(){
-        page.end()
+      after('end webdriver/selenium session', function(){
+        return page.end()
       })
 
       afterEach('Test failure debug', function(){
