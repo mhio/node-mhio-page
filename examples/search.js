@@ -1,55 +1,64 @@
 // # Search Example
 
-const path = require('path')
-const { Docker, Page } = require('../')
+const Promise = require('bluebird')
+const { Page } = require('../')
 
 // Extend the Page class with custom methods
 
 class SearchPage extends Page {
 
   search(engine, term){
-    if (!this[engine]) throw new Error(`No search engine ${engine}`)
-    return this[engine](term)
+    let searchFn = `${engine}Search`
+    if (!this[searchFn]) throw new Error(`No search engine ${engine}`)
+    return this[searchFn](term)
   }
 
-  google(term){
-    return this.openUrl('https://www.google.com')
-      .then(()=> this.wait('#lst-ib'))
-      .then(()=> this.browser.setValue('#lst-ib', term))
-      .then(()=> this.browser.submitForm('#tsf'))
-      .then(()=> this.wait('#b_results', 5000))
-  }
-  
-  bing(term){
-    return this.openUrl('https://www.bing.com')
+  bingSearch(term){
+    return this.openUrl('https://www.bing.com/')
       .then(()=> this.wait('#sb_form_q'))
       .then(()=> this.browser.setValue('#sb_form_q', term))
       .then(()=> this.browser.submitForm('#sb_form'))
       .then(()=> this.wait('#b_results', 5000))
   }
- 
+
+  googleSearch(term){
+    return this.openUrl('https://www.google.com/ncr')
+      .then(()=> this.wait('#lst-ib'))
+      .then(()=> this.browser.setValue('#lst-ib', term))
+      .then(()=> this.browser.submitForm('#tsf'))
+      .then(()=> this.wait('.srg', 5000))
+  }
+
 }
 
 
-// Crete a class instance
+// Crete an instance of the Page object
 
-const lp = new SearchPage({
+const sp = new SearchPage({
   host: 'www.bing.com',
   scheme: 'https',
-  remote_browser: 'firefox',
-  remote_port: 44446
+  remote_browser: 'firefox'
 })
 
 // Use the custom `.search` method
+sp.screen_shot_path = __dirname
+sp.search('bing','test')
+  .then(()=> sp.screenShot('search-bing.png'))
+  .catch(err => {
+    console.error(err)
+    return sp.screenShot('error-bing.png')
+  })
+  .then(()=> sp.search('google','test'))
+  .then(()=> sp.screenShot('search-goog.png'))
+  .catch(err => {
+    console.error(err)
+    return sp.screenShot('error-goog.png')
+  })
 
-lp.search('bing','test').then(res => {
-  console.log('search', res)
-  console.log('title', lp.title())
-  return lp.screenShot(path.join(__dirname, 'search.png'))
-})
-.then(res => console.log('ss', res))
-.catch(err => {
- lp.screenShot(path.join(__dirname, 'error.png'))
- console.error(err)
-})
+// Promise.each(promises)
+//   .then(res => console.log('done', res ))
+//   .catch(err => {
+//     sp.screenShot('error.png')
+//     console.error(err)
+//   })
 

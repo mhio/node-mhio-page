@@ -1,26 +1,15 @@
 /* global expect */
 const debug = require('debug')('dply:test:int:page')
 const { Page, Docker, Browsers } = require('../')
-const _ = require('lodash')
 const { TestEnv } = require('@deployable/test')
-const Promise = require('bluebird')
 
 
 // Test fixture app
 const app = require('express')()
+app.get('/',(req, res)=> res.send('hello!'))
 app.get('/test',(req, res)=> {
   res.send('<body><title>atitle</title></head><body><div id="adiv">abody</div></body>')
 })
-
-// IP fixture
-// Find the first, external, IPv4 address
-let ip = _(require('os').networkInterfaces())
-  .map(o => _.find(o, {internal: false, family: 'IPv4'}))
-  .compact()
-  .first()
-  .address
-if (!ip) throw new Error('Couldn\'t find a local IP to connect to')
-
 
 
 describe('Integration::page::Page', function(){
@@ -44,9 +33,20 @@ describe('Integration::page::Page', function(){
         page = new Page({
           app: app,
           browser: browser,
-          host: ip
+          host: Page.ip()
         })
         return page.promise
+      })
+
+      after('end Page/app', function(){
+        page.end()
+      })
+
+      afterEach('Test failure debug', function(){
+        //debug('test `%s` %s', this.currentTest.title, this.currentTest.state)
+        if (this.currentTest.state === 'failed') {
+          return page.source().then(src => debug('page source', src))
+        }
       })
 
 
