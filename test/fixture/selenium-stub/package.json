@@ -1,0 +1,19 @@
+{
+  "name": "node-docker-demo-app",
+  "version": "1.0.0",
+  "description": "A node app in docker with various supervisors",
+  "main": "index.js",
+  "scripts": {
+    "test": "curl -s http://localhost:8080"
+  },
+  "keywords": [
+    "test",
+    "node",
+    "app"
+  ],
+  "author": "Matt Hoyle",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "~4.17.3"
+  }
+}
