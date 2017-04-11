@@ -1,6 +1,6 @@
 {
   "name": "@deployable/page",
-  "version": "0.0.1-2",
+  "version": "0.0.1",
   "description": "Page layout and component testing with Webdriver.io",
   "main": "lib/index.js",
   "scripts": {
