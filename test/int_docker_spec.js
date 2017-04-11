@@ -8,6 +8,14 @@ describe('Integration::page::Docker', function(){
 
     const browser = 'chrome'
 
+    before(function(){
+      Docker.testingInit()
+    })
+
+    after(function(){
+      Docker.init()
+    })
+
     it('should down any running instances', function(){
       return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
     })
@@ -45,7 +53,7 @@ describe('Integration::page::Docker', function(){
     })
 
     it('should up', function(){
-      this.timeout(5000)
+      this.timeout(4000)
       return expect( Docker.up(browser) )
         .to.eventually.have.property('state').and.equal('running')
     })
@@ -77,12 +85,13 @@ describe('Integration::page::Docker', function(){
         Docker.init()
       })
 
-      it('should up any running instances', function(){
+      it('should up a browser container', function(){
         this.timeout(5000)
-        return expect( Docker.up(browser) ).to.eventually.eql( {state: 'running'} )
+        return expect( Docker.up(browser) )
+          .to.eventually.have.property('state').and.equal('running')
       })
 
-      it('should down any running instances', function(){
+      it('should down the browser container', function(){
         return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
       })
 
