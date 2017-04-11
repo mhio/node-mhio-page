@@ -44,6 +44,11 @@ describe('Integration::page::Docker', function(){
       return expect( Docker.check(browser) ).to.eventually.eql( {state: 'running'} )
     })
 
+    it('should startWait', function(){
+      return expect( Docker.startWait(browser) )
+        .to.eventually.have.property('state').and.equal('running')
+    })
+
     it('should stop', function(){
       return expect( Docker.stop(browser) ).to.eventually.eql( {state: 'stopped'} )
     })

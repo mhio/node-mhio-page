@@ -6,9 +6,10 @@ const { TestEnv } = require('@deployable/test')
 
 // Test fixture app
 const app = require('express')()
+const app_html = '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>atitle</title></head><body><div id="adiv">abody</div></body></html>'
 app.get('/',(req, res)=> res.send('hello!'))
 app.get('/test',(req, res)=> {
-  res.send('<body><title>atitle</title></head><body><div id="adiv">abody</div></body>')
+  res.send(app_html)
 })
 
 
@@ -116,6 +117,10 @@ describe('Integration::page::Page', function(){
           return expect( page.wait('#adiv') ).to.become( true )
         })
 
+        it('should get the source', function(){
+          return expect( page.source() ).to.eventually.equal( app_html )
+        })
+
         it('should get the #adiv html', function(){
           return expect( page.html('#adiv') ).to.become( '<div id="adiv">abody</div>' )
         })
@@ -133,6 +138,10 @@ describe('Integration::page::Page', function(){
 
         after('clean', function(){
           return output.clean()
+        })
+
+        it('should error when taking a screen shot without a path', function(){
+          return expect( page.screenShot('testing.png') ).to.be.rejectedWith(Error, /path/)
         })
 
         it('should take a screen to output', function(){
