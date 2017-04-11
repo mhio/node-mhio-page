@@ -47,7 +47,16 @@ describe('Unit::page::Page', function(){
         no_async_init: true,
         cb_docker: (err, res)=> done(err)
       })
-      page.initDocker({test:true})
+      page.initDocker({ test:{ state:'running' }})
+    })
+
+    it('should run the everything callback', function(done){
+      let page = new Page({
+        app: app,
+        no_async_init: true,
+        cb: (err, res)=> done(err)
+      })
+      page.initAsync({test:true})
     })
 
   })
