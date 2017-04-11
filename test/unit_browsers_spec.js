@@ -34,8 +34,16 @@ describe('Unit::page::Browsers', function(){
       expect( Browsers.id('safari') ).to.equal( 9 )
     })
 
-    it('should not have nope Browsers attached', function(){
+    it('should not have a nope Browser attached', function(){
       expect( ()=> Browsers.id('nope') ).to.throw(/Unsupported browser/)
+    })
+
+    it('should not have a nope Browser for .wdPort', function(){
+      expect( ()=> Browsers.wdPort('nope') ).to.throw(/Unsupported browser/)
+    })
+
+    it('should not have a nope Browser for .vncPort', function(){
+      expect( ()=> Browsers.vncPort('nope') ).to.throw(/Unsupported browser/)
     })
 
   })
