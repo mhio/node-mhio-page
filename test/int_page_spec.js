@@ -73,13 +73,13 @@ describe('Integration::page::Page', function(){
       })
 
       after('end webdriver/selenium session', function(){
-        return page.end()
+        if (page) return page.end()
       })
 
       afterEach('Test failure debug', function(){
         //debug('test `%s` %s', this.currentTest.title, this.currentTest.state)
         if (this.currentTest.state === 'failed') {
-          return page.source().then(src => debug('page source', src))
+          if (page && debug) return page.source().then(src => debug('page source', src))
         }
       })
 
