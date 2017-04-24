@@ -1,6 +1,6 @@
 /* global expect */
 const debug = require('debug')('dply:test:int:page')
-const { Page, Docker, Browsers } = require('../')
+const { Page, Browsers } = require('../')
 const { TestEnv } = require('@deployable/test')
 
 
@@ -146,7 +146,7 @@ describe('Integration::page::Page', function(){
 
         it('should take a screen to output', function(){
           page.screenShotPath(output.path())
-          return page.screenShot('testing.png').then(res => {
+          return page.screenShot('testing.png').then(()=> {
             expect( __dirname, 'output', 'testing' ).to.be.a.file
           })
         })

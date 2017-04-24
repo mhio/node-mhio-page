@@ -8,7 +8,7 @@
     "test:debug": "DEBUG='*' mocha debug",
     "test:coverage": "istanbul cover _mocha test/unit* test/int* && istanbul check-coverage",
     "release:test": "set -uex; yarn test; npm version prerelease; npm publish --tag testing --access public ",
-    "release:patch": "set -uex; rm -rd node_modules; yarn; yarn run test:coverage; npm version patch; git push; npm publish --access public; git push --tags"
+    "release:patch": "set -uex; rm -rf node_modules; yarn; yarn run test:coverage; npm version patch; git push; npm publish --access public; git push --tags"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "debug": "^2.6.3",
+    "needle": "^1.6.0",
     "webdriverio": "~4.6.2"
   },
   "peerDependencies": {
