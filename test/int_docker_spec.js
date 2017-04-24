@@ -20,27 +20,29 @@ describe('Integration::page::Docker', function(){
       return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
     })
 
-    it('should check', function(){
+    it('should check they are down', function(){
       return expect( Docker.check(browser) ).to.eventually.eql( {state: 'none'} )
     })
 
-    it('should run', function(){
+    it('should run from down', function(){
       return expect( Docker.run(browser) ).to.eventually.eql( {state: 'started'} )
     })
 
-    it('should check', function(){
+    it('should check running', function(){
       return expect( Docker.check(browser) ).to.eventually.eql( {state: 'running'} )
     })
 
-    it('should stop', function(){
+    it('should stop from running', function(){
+      this.timeout(3000)
       return expect( Docker.stop(browser) ).to.eventually.eql( {state: 'stopped'} )
     })
 
-    it('should start', function(){
+    it('should start from stopped', function(){
+      this.timeout(3000)
       return expect( Docker.start(browser) ).to.eventually.eql( {state: 'started'} )
     })
 
-    it('should check', function(){
+    it('should check started', function(){
       return expect( Docker.check(browser) ).to.eventually.eql( {state: 'running'} )
     })
 
