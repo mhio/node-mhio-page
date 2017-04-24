@@ -45,6 +45,15 @@ describe('Integration::page::Page', function(){
         return page.promise
       })
 
+      it('should create standard Page/app via setupAsync', function(){
+        this.timeout(15000)
+        return Page.setupAsync({
+            app: app,
+            host: Page.ip()
+          })
+          .then(res => page = res)
+      })
+
     })
 
 
