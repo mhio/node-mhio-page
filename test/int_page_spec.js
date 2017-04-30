@@ -27,7 +27,7 @@ describe('Integration::page::Page', function(){
         return page.end()
       })
 
-      it('should create docker Page/app', function(){
+      it('should create standard Page/app with docker webdriver', function(){
         this.timeout(15000)
         page = new Page({
           app: app,
@@ -36,7 +36,7 @@ describe('Integration::page::Page', function(){
         return page.promise
       })
 
-      it('should create standard Page/app', function(){
+      it('should create standard Page/app relying on webdriver', function(){
         this.timeout(15000)
         page = new Page({
           app: app,
@@ -45,12 +45,9 @@ describe('Integration::page::Page', function(){
         return page.promise
       })
 
-      it('should create standard Page/app via setupAsync', function(){
+      it('should create standard Page/app via setupAsync relying on webdriver', function(){
         this.timeout(15000)
-        return Page.setupAsync({
-            app: app,
-            host: Page.ip()
-          })
+        return Page.setupAsync({ app: app, host: Page.ip() })
           .then(res => page = res)
       })
 
