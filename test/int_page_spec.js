@@ -81,6 +81,9 @@ describe('Integration::page::Page', function(){
         }
       })
 
+      afterEach('Test failure debug', function(){
+        if (page && page.appserver ) page.appserver.close()
+      })
 
       it('should generate a local url', function(){
         expect( page.generateUrl('/test') ).to.match( /^http:\/\/.+:\d+\/test$/ )
@@ -98,7 +101,7 @@ describe('Integration::page::Page', function(){
           .and.equal(0)
       })
 
-      it('should set a full url /testa', function(){
+      it('should open a full url for /test', function(){
         let full_url = page.generateUrl('/test')
         return page.openUrl(full_url).should
           .eventually.have.property('status')

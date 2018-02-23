@@ -1,6 +1,6 @@
-/* global expect */
+/* global expect chai */
 const { Docker, Browsers } = require('../')
-
+chai.should()
 
 describe('Integration::page::Docker', function(){
 
@@ -16,70 +16,71 @@ describe('Integration::page::Docker', function(){
       Docker.init()
     })
 
-    it('should down any running instances', function(){
-      return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
+    it('should down any running instances', async function(){
+      let res = await Docker.down(browser)
+      return expect( res ).to.eql( {state: 'none'} )
     })
 
     it('should check they are down', function(){
-      return expect( Docker.check(browser) ).to.eventually.eql( {state: 'none'} )
+      return Docker.check(browser).should.eventually.eql( {state: 'none'} )
     })
 
     it('should run from down', function(){
-      return expect( Docker.run(browser) ).to.eventually.eql( {state: 'started'} )
+      return Docker.run(browser).should.eventually.eql( {state: 'started'} )
     })
 
     it('should check running', function(){
-      return expect( Docker.check(browser) ).to.eventually.eql( {state: 'running'} )
+      return Docker.check(browser).should.eventually.eql( {state: 'running'} )
     })
 
     it('should stop from running', function(){
       this.timeout(3000)
-      return expect( Docker.stop(browser) ).to.eventually.eql( {state: 'stopped'} )
+      return Docker.stop(browser).should.eventually.eql( {state: 'stopped'} )
     })
 
     it('should start from stopped', function(){
       this.timeout(3000)
-      return expect( Docker.start(browser) ).to.eventually.eql( {state: 'started'} )
+      return Docker.start(browser).should.eventually.eql( {state: 'started'} )
     })
 
     it('should check started', function(){
-      return expect( Docker.check(browser) ).to.eventually.eql( {state: 'running'} )
+      return Docker.check(browser).should.eventually.eql( {state: 'running'} )
     })
 
     it('should startWait', function(){
-      return expect( Docker.startWait(browser) )
-        .to.eventually.have.property('state').and.equal('running')
+      return Docker.startWait(browser).should
+        .eventually.have.property('state').and.equal('running')
     })
 
     it('should stop', function(){
-      return expect( Docker.stop(browser) ).to.eventually.eql( {state: 'stopped'} )
+      return Docker.stop(browser).should.eventually.eql( {state: 'stopped'} )
     })
 
     it('should down any running instances', function(){
-      return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
+      return Docker.down(browser).should.eventually.eql( {state: 'none'} )
     })
 
     it('should up', function(){
       this.timeout(4000)
-      return expect( Docker.up(browser) )
-        .to.eventually.have.property('state').and.equal('running')
+      return Docker.up(browser).should
+        .eventually.have.property('state').and.equal('running')
     })
 
     it('should start while already up', function(){
-      return expect( Docker.start(browser) ).to.eventually.eql( {state: 'started'} )
+      return Docker.start(browser).should.eventually.eql( {state: 'started'} )
     })
 
     it('should up while already started', function(){
-      return expect( Docker.up(browser) )
-        .to.eventually.have.property('state').and.equal('running')
+      return Docker.up(browser).should
+        .eventually.have.property('state').and.equal('running')
     })
 
     it('should stop', function(){
-      return expect( Docker.stop(browser) ).to.eventually.eql( {state: 'stopped'} )
+      return Docker.stop(browser).should.eventually.eql({ state: 'stopped' })
     })
 
     it('should down any running instances', function(){
-      return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
+      return Docker.down(browser).should.eventually.eql({ state: 'none' })
     })
 
   })
@@ -94,12 +95,13 @@ describe('Integration::page::Docker', function(){
 
       it('should up a browser container', function(){
         this.timeout(5000)
-        return expect( Docker.up(browser) )
-          .to.eventually.have.property('state').and.equal('running')
+        return Docker.up(browser).should
+          .eventually.have.property('state').and.equal('running')
       })
 
       it('should down the browser container', function(){
-        return expect( Docker.down(browser) ).to.eventually.eql( {state: 'none'} )
+        return Docker.down(browser).should
+          .eventually.have.property('state').and.equal('none')
       })
 
     })
