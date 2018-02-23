@@ -1,6 +1,6 @@
 {
   "name": "@deployable/page",
-  "version": "0.1.0",
+  "version": "0.2.0-0",
   "description": "Page layout and component testing with Webdriver.io",
   "main": "lib/index.js",
   "scripts": {
@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
-    "debug": "^2.6.6",
-    "needle": "^1.6.0",
+    "debug": "^3.1.0",
+    "needle": "^2.2.0",
     "webdriverio": "^4.7.1"
   },
   "peerDependencies": {
