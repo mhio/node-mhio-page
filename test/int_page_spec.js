@@ -1,8 +1,8 @@
-/* global expect */
+/* global expect chai */
 const debug = require('debug')('dply:test:int:page')
 const { Page, Browsers } = require('../')
 const { TestEnv } = require('@deployable/test')
-
+chai.should()
 
 // Test fixture app
 const app = require('express')()
@@ -19,11 +19,12 @@ describe('Integration::page::Page', function(){
 
   Browsers.thatHaveAContainer().forEach(browser => {
 
-    describe(`setup ${browser}`, function(){
+    describe(`setup for ${browser}`, function(){
 
       let page = null
 
       afterEach(function(){
+        this.timeout(5000)
         return page.end()
       })
 
@@ -54,7 +55,7 @@ describe('Integration::page::Page', function(){
     })
 
 
-    describe(`${browser}`, function(){
+    describe(`testing for ${browser}`, function(){
 
       this.timeout(5000)
       let page = null
@@ -82,26 +83,26 @@ describe('Integration::page::Page', function(){
 
 
       it('should generate a local url', function(){
-        expect( page.url('/test') ).to.match( /^http:\/\/.+:\d+\/test$/ )
+        expect( page.generateUrl('/test') ).to.match( /^http:\/\/.+:\d+\/test$/ )
       })
 
-      it('should set a url /test', function(){
-        return expect( page.open('/test') )
-          .to.eventually.have.property('state')
-          .and.equal('success')
+      it('should open a url /test', function(){
+        return page.open('/test').should
+          .eventually.have.property('status')
+          .and.equal(0)
       })
 
-      it('should set a url /test', function(){
-        return expect( page.open() )
-          .to.eventually.have.property('state')
-          .and.equal('success')
+      it('should open a default url', function(){
+        return page.open().should
+          .eventually.have.property('status')
+          .and.equal(0)
       })
 
-      it('should set a full url /test', function(){
-        let full_url = page.url('/testa')
-        return expect( page.openUrl(full_url) )
-          .to.eventually.have.property('state')
-          .and.equal('success')
+      it('should set a full url /testa', function(){
+        let full_url = page.generateUrl('/test')
+        return page.openUrl(full_url).should
+          .eventually.have.property('status')
+          .and.equal(0)
       })
 
 
