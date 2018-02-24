@@ -99,6 +99,7 @@ describe('Integration::page::Page', function(){
       })
 
       it('should open a url /test', function(){
+        this.timeout(15000)
         return page.open('/test').should
           .eventually.have.property('status')
           .and.equal(0)
