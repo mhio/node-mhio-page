@@ -23,11 +23,12 @@ describe('Unit::page::Page', function(){
     })
 
     it('should create Page instance', function(){
-      expect( new Page({no_async_init: true}) ).to.be.ok
+      expect( new Page({ no_async_init: true }) ).to.be.ok
     })
 
     it('should create Page instance with an app', function(){
-      expect( new Page({app: app, no_async_init: true}) ).to.be.ok
+      page = new Page({ app: app, no_async_init: true })
+      expect( page ).to.be.ok
     })
 
     it('should run the app callback', function(done){

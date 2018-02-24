@@ -23,9 +23,13 @@ describe('Integration::page::Page', function(){
 
       let page = null
 
-      afterEach(function(){
+      afterEach('end page', function(){
         this.timeout(5000)
         return page.end()
+      })
+
+      afterEach('close app server', function(){
+        if (page && page.appserver) page.appserver.close()
       })
 
       it('should create standard Page/app with docker webdriver', function(){
@@ -74,15 +78,20 @@ describe('Integration::page::Page', function(){
         if (page) return page.end()
       })
 
-      afterEach('Test failure debug', function(){
+      afterEach('Test failure Page debug', async function(){
         //debug('test `%s` %s', this.currentTest.title, this.currentTest.state)
         if (this.currentTest.state === 'failed') {
-          if (page && debug) return page.source().then(src => debug('page source', src))
+          if (page && debug) {
+            let src = await page.source()
+            debug('failed page source', src)
+            let txt = await page.text('body')
+            debug('failed page text', txt)
+          }
         }
       })
 
-      afterEach('Test failure debug', function(){
-        if (page && page.appserver ) page.appserver.close()
+      after('Test failure debug', function(){
+        if (page && page.appserver) page.appserver.close()
       })
 
       it('should generate a local url', function(){
@@ -111,8 +120,16 @@ describe('Integration::page::Page', function(){
 
       describe('/test', function(){
 
+        before('test opening /test', function(){
+          return page.testOpen('/test')
+        })
+
         before('opening /test', function(){
           return page.open('/test')
+        })
+
+        it('should get the source', function(){
+          return expect( page.source() ).to.become( app_html )
         })
 
         it('should get the urls title', function(){
@@ -128,7 +145,7 @@ describe('Integration::page::Page', function(){
         })
 
         it('should get the source', function(){
-          return expect( page.source() ).to.eventually.equal( app_html )
+          return expect( page.source() ).to.become( app_html )
         })
 
         it('should get the #adiv html', function(){
