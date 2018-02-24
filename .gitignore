@@ -4,6 +4,7 @@ npm-debug*.log
 yarn-error.log
 
 # Output
+.nyc_output/
 test/output
 coverage/
 pkg/
