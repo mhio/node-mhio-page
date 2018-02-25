@@ -68,12 +68,11 @@ describe('Unit::page::Page', function(){
     })
 
     it('should generate a url for a Page instance', function(){
-      this.timeout(5000)
       page = new Page({
         app: app,
+        no_async_init: true,
       })
       expect( page.generateUrl('/whatever') ).to.equal('http://localhost/whatever')
-      return page.promise
     })
   })
 
