@@ -5,6 +5,7 @@ chai.should()
 describe('Integration::page::Docker', function(){
 
   describe('Commands on stub container', function(){
+    this.timeout(11000)
 
     const browser = 'chrome'
 
@@ -38,12 +39,10 @@ describe('Integration::page::Docker', function(){
     })
 
     it('should stop from running', function(){
-      this.timeout(3000)
       return Docker.stop(browser).should.eventually.eql( {state: 'stopped'} )
     })
 
     it('should start from stopped', function(){
-      this.timeout(3000)
       return Docker.start(browser).should.eventually.eql( {state: 'started'} )
     })
 
@@ -65,7 +64,6 @@ describe('Integration::page::Docker', function(){
     })
 
     it('should up', function(){
-      this.timeout(4000)
       return Docker.up(browser).should
         .eventually.have.property('state').and.equal('running')
     })
