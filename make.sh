@@ -14,6 +14,8 @@ fi
 
 cd "$rundir"
 
+###
+
 build_test_docker(){
   docker pull selenium/standalone-chrome
   docker pull selenium/standalone-firefox
@@ -23,6 +25,8 @@ build_test_docker(){
   docker tag dply/selenium-standalone-stub:latest dply/selenium-standalone-stub:firefox
 }
 
+
+###
 
 run_help(){
   echo "Commands:"
