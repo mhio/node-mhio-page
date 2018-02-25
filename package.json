@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha test/unit_* test/int_*",
+    "test:watch": "nodemon -x 'mocha --bail test/unit_* test/int_* || exit 1'",
     "test:debug": "DEBUG='*' mocha debug",
     "test:coverage": "nyc _mocha test/unit* test/int* && nyc report -r html && nyc check-coverage",
     "release:test": "set -uex; yarn test; npm version prerelease; npm publish --tag testing --access public ",
