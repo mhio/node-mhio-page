@@ -4,12 +4,16 @@ chai.should()
 
 describe('Integration::page::Docker', function(){
 
-  describe('stub container', function(){
+  describe('Commands on stub container', function(){
 
     const browser = 'chrome'
 
     before(function(){
       Docker.testingInit()
+    })
+
+    after(function(){
+      Docker.rmf('chrome')
     })
 
     after(function(){
@@ -87,10 +91,14 @@ describe('Integration::page::Docker', function(){
 
   Browsers.thatHaveAContainer().forEach(browser => {
 
-    describe(`${browser}`, function(){
+    describe(`Commands on ${browser} container`, function(){
 
       before(function(){
         Docker.init()
+      })
+
+      after(function(){
+        Docker.rmf(`${browser}`)
       })
 
       it('should up a browser container', function(){

@@ -25,6 +25,11 @@ build_test_docker(){
   docker tag dply/selenium-standalone-stub:latest dply/selenium-standalone-stub:firefox
 }
 
+run_docker_stop(){
+  docker stop dply-selenium-standalone-chrome dply-selenium-standalone-firefox
+  docker rm -f dply-selenium-standalone-chrome dply-selenium-standalone-firefox
+}
+
 
 ###
 
@@ -34,10 +39,13 @@ run_help(){
 }
 set +x
 case $cmd in
-  "build")                  build_test_docker "$@";;
-  "build:test")             build_test_docker "$@";;
-  "build:test:docker")      build_test_docker "$@";;
-
+  "build")                  build_test_docker_stub "$@";;
+  "build:test")             build_test_docker_stub "$@";;
+  "build:test:docker")      build_test_docker_stub "$@";;
+  "build:test:docker:stub") build_test_docker_stub "$@";;
+  "stop")                   run_docker_stop "$@";; 
+  "stop:docker")            run_docker_stop "$@";; 
+  "stop:docker:stub")       run_docker_stop "$@";; 
   "watch")                  run_watch "$@";;
 
   '-h'|'--help'|'h'|'help') run_help;;
