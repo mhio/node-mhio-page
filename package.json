@@ -43,6 +43,13 @@
     "webdriverio": "^4.7.1"
   },
   "peerDependencies": {
-    "webdriverio": "^4.5"
+    "webdriverio": "^4.7"
+  },
+  "nyc": {
+    "per-file": true,
+    "lines": 80,
+    "statements": 80,
+    "functions": 80,
+    "branches": 80
   }
 }
