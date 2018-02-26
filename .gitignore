@@ -9,6 +9,7 @@ test/output
 coverage/
 pkg/
 tmp/
+lib/
 
 # Example output
 *.png
