@@ -10,6 +10,7 @@ coverage/
 pkg/
 tmp/
 lib/
+doc/fonts
 
 # Example output
 *.png
