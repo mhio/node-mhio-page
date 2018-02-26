@@ -1,4 +1,4 @@
-const { Page, Docker } = require('../')
+const { Page, Docker } = require('../src')
 
 describe('Unit::page::index', function(){
 
