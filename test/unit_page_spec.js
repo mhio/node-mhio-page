@@ -44,7 +44,7 @@ describe('Unit::page::Page', function(){
       page = new Page({
         app: app,
         no_async_init: true,
-        cb_wd: (err, res) => { debug(res); done(err) }
+        cb_wd: (err, res) => { debug('test cb_wd', res); done(err) }
       })
       page.initWebdriver({test:true})
     })
@@ -53,7 +53,7 @@ describe('Unit::page::Page', function(){
       page = new Page({
         app: app,
         no_async_init: true,
-        cb_docker: (err, res) => { debug(res); done(err) }
+        cb_docker: (err, res) => { debug('test cb_docker', res); done(err) }
       })
       page.initDocker({ test:{ state:'running' }})
     })
@@ -62,7 +62,7 @@ describe('Unit::page::Page', function(){
       page = new Page({
         app: app,
         no_async_init: true,
-        cb: (err, res) => { debug(res); done(err) }
+        cb: (err, res) => { debug('test cb',res); done(err) }
       })
       page.initAsync({test:true})
     })
@@ -70,6 +70,7 @@ describe('Unit::page::Page', function(){
     it('should generate a url for a Page instance', function(){
       page = new Page({
         app: app,
+        no_async_init: true,
       })
       expect( page.generateUrl('/whatever') ).to.equal('http://localhost/whatever')
     })
