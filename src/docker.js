@@ -57,7 +57,7 @@ class Docker {
             err.res = res
             throw err
           }
-          return {state: 'running', retry: retry}
+          return { state: 'running', retry: retry }
         })
         .catch(error => {
           if (retry > retries) throw error
@@ -72,13 +72,13 @@ class Docker {
     return Docker.check( browser ).then(res => {
       debug('up - check state', res.state)
       switch (res.state) {
-        case 'started':
-        case 'running':
+        //case 'started':  // module
+        case 'running':  // docker
           return Docker.testPort(browser)
 
-        case 'stopped':
-        case 'created':
-        case 'exited':
+        //case 'stopped':  // module
+        case 'created':  // docker
+        case 'exited':   // docker
           return Docker.startWait( browser )
 
         default:
@@ -96,15 +96,15 @@ class Docker {
     return Docker.check( browser ).then(res => {
 
       switch( res.state) {
-        case 'stopped':
-        case 'created':
-        case 'exited':
+        //case 'stopped': // module
+        case 'created': // docker
+        case 'exited': // docker
           return Docker.rm( browser )
 
         case 'none':
           return res
 
-        case 'started':
+        //case 'started':
         case 'running':
           return Docker.stop( browser )
             .then(()=> Docker.rm(browser) )
@@ -121,12 +121,23 @@ class Docker {
     })
   }
 
+
+  // Docker states
+  // https://github.com/moby/moby/blob/66e6beeb249948634e2815ef5cac97984d5c0d56/container/state.go#L114-L138
+
+  // "paused" implies running
+  // "restarting" implies running
+  // "removing"
+  // "dead"
+  // "created"
+  // "exited"
+
   static check( browser ){
     debug('check docker', browser)
     return Docker.command([
       'inspect',
       `${this.name_prefix}${browser}`,
-      '-f',
+      '--format',
       '{{ (index (index .State.Status )) }}'
     ])
     .then(res => {
@@ -140,7 +151,7 @@ class Docker {
         err.results.stderr[0] &&
         err.results.stderr[0].match(/No such (object|container)/)
       ) {
-        return { state: 'none' }
+        return { state: 'none', via: 'check' }
       }
       throw err
     })
@@ -151,7 +162,7 @@ class Docker {
       'stop',
       `${this.name_prefix}${browser}`
     ])
-    .then(()=> ({ state: 'stopped' }))
+    .then(()=> ({ state: 'exited', via: 'stop' }))
   }
 
   static startWait( browser ){
@@ -166,7 +177,7 @@ class Docker {
       `${this.name_prefix}${browser}`
     ])
     .delay(40)
-    .then(()=> ({ state: 'started' }))
+    .then(()=> ({ state: 'running', via: 'start' }))
   }
 
   static rm( browser ){
@@ -174,7 +185,7 @@ class Docker {
       'rm',
       `${this.name_prefix}${browser}`
     ])
-    .then(()=> ({ state: 'none' }))
+    .then(()=> ({ state: 'none', via: 'rm' }))
   }
 
   static rmf( browser ){
@@ -188,7 +199,7 @@ class Docker {
       if (err.results) {
         let res = err.results
         if ( res.exit_code === 1 && /No such container: /.test(res.stderr_buffer.toString()) ){
-          return { state: 'none' }
+          return { state: 'none', via: 'rmf' }
         }
       }
       throw err
@@ -215,7 +226,7 @@ class Docker {
         `${this.image_prefix}${browser}`
       ])
       .delay(40)
-      .then(() => ({ state: 'started' }))
+      .then(() => ({ state: 'running', via: 'run' }))
 
       resolve(p)
 

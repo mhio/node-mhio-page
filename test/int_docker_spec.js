@@ -23,66 +23,90 @@ describe('Integration::page::Docker', function(){
 
     it('should down any running instances', async function(){
       let res = await Docker.down(browser)
-      return expect( res ).to.eql( {state: 'none'} )
+      return expect( res ).to.containSubset( {state: 'none'} )
     })
 
     it('should check they are down', function(){
-      return Docker.check(browser).should.eventually.eql( {state: 'none'} )
+      return Docker.check(browser).should.eventually
+        .containSubset( {state: 'none'} )
     })
 
     it('should run from down', function(){
-      return Docker.run(browser).should.eventually.eql( {state: 'started'} )
+      return Docker.run(browser).should.eventually
+        //.eql( {state: 'running'} )
+        .containSubset( {state: 'running'} )
     })
 
     it('should check running', function(){
-      return Docker.check(browser).should.eventually.eql( {state: 'running'} )
+      return Docker.check(browser).should.eventually
+        //.eql( {state: 'running'} )
+        .containSubset( {state: 'running'} )
     })
 
     it('should stop from running', function(){
-      return Docker.stop(browser).should.eventually.eql( {state: 'stopped'} )
+      return Docker.stop(browser).should.eventually
+        .containSubset( {state: 'exited'} )
     })
 
     it('should start from stopped', function(){
-      return Docker.start(browser).should.eventually.eql( {state: 'started'} )
+      return Docker.start(browser).should.eventually
+        //.eql( {state: 'running'} )
+        .containSubset( {state: 'running'} )
+
     })
 
     it('should check started', function(){
-      return Docker.check(browser).should.eventually.eql( {state: 'running'} )
+      return Docker.check(browser).should.eventually
+        //.eql( {state: 'running'} )
+        .containSubset( {state: 'running'} )
     })
 
     it('should startWait', function(){
-      return Docker.startWait(browser).should
-        .eventually.have.property('state').and.equal('running')
+      return Docker.startWait(browser).should.eventually
+        //.have.property('state').and.equal('running')
+        .containSubset( {state: 'running'} )
     })
 
     it('should stop', function(){
-      return Docker.stop(browser).should.eventually.eql( {state: 'stopped'} )
+      return Docker.stop(browser).should.eventually
+        //.eql( {state: 'stopped'} )
+        .containSubset( {state: 'exited'} )
     })
 
     it('should down any running instances', function(){
-      return Docker.down(browser).should.eventually.eql( {state: 'none'} )
+      return Docker.down(browser).should.eventually
+        //.eql( {state: 'none'} )
+        .containSubset( {state: 'none'} )
     })
 
     it('should up', function(){
-      return Docker.up(browser).should
-        .eventually.have.property('state').and.equal('running')
+      return Docker.up(browser).should.eventually
+        //.have.property('state').and.equal('running')
+        .containSubset( {state: 'running'} )
     })
 
     it('should start while already up', function(){
-      return Docker.start(browser).should.eventually.eql( {state: 'started'} )
+      return Docker.start(browser).should.eventually
+        //.eql( {state: 'started'} )
+        .containSubset( {state: 'running'} )
     })
 
     it('should up while already started', function(){
-      return Docker.up(browser).should
-        .eventually.have.property('state').and.equal('running')
+      return Docker.up(browser).should.eventually
+        //.have.property('state').and.equal('running')
+        .containSubset( {state: 'running'} )
     })
 
     it('should stop', function(){
-      return Docker.stop(browser).should.eventually.eql({ state: 'stopped' })
+      return Docker.stop(browser).should.eventually
+        //.eql({ state: 'stopped' })
+        .containSubset( {state: 'exited'} )
     })
 
     it('should down any running instances', function(){
-      return Docker.down(browser).should.eventually.eql({ state: 'none' })
+      return Docker.down(browser).should.eventually
+        //.eql({ state: 'none' })
+        .containSubset( {state: 'none'} )
     })
 
   })
