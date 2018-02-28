@@ -16,7 +16,7 @@ cd "$rundir"
 
 ###
 
-build_test_docker(){
+build_test_docker_stub(){
   docker pull selenium/standalone-chrome
   docker pull selenium/standalone-firefox
   cd test/fixture/selenium-stub
