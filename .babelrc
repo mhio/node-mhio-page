@@ -2,7 +2,8 @@
   "presets": [
     [ "env", { "targets": { "node": "8" } } ]
   ],
-  "sourceMaps": "inline",
+  "sourceMaps": true,
+  "retainLines": true,
   "plugins": [
     [
       "transform-async-to-module-method",
