@@ -1,6 +1,6 @@
 /* global expect */
 
-const { Browsers } = require('../src/')
+const { Browsers } = require('../../src/')
 
 describe('Unit::page::Browsers', function(){
 
