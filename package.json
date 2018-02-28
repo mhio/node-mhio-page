@@ -13,7 +13,7 @@
     "build:code": "babel -d lib/ src/",
     "build:doc": "set -uex; yarn run build:doc:html; yarn run build:doc:md",
     "build:doc:html": "jsdoc -c .jsdoc.json -d doc/html src/",
-    "build:doc:md": "jsdoc2md -c ./.jsdoc.json --separators -f src/ > doc/API.md",
+    "build:doc:md": "jsdoc2md -c ./.jsdoc.json --separators -f src/* > doc/API.md",
     "release:test": "set -uex; yarn run test; yarn run build; npm version prerelease; npm publish --tag testing --access public",
     "release:patch": "set -uex; git pull; rm -rf node_modules; yarn; yarn run test:coverage; yarn run build; npm version patch; git push; npm publish --access public; git push --tags"
   },
