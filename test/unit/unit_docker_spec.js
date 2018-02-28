@@ -1,5 +1,5 @@
 /* global expect */
-const { Docker } = require('../src')
+const { Docker } = require('../../src')
 
 describe('Unit::page::Docker', function(){
 

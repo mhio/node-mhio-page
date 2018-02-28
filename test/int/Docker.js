@@ -1,5 +1,5 @@
 /* global expect chai */
-const { Docker, Browsers } = require('../src')
+const { Docker, Browsers } = require('../../src')
 chai.should()
 
 describe('Integration::page::Docker', function(){

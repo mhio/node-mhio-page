@@ -1,6 +1,6 @@
 /* global expect */
 const debug = require('debug')('deployable:page:test:unit:Page')
-const { Page } = require('../src')
+const { Page } = require('../../src')
 const app = require('express')()
 
 
