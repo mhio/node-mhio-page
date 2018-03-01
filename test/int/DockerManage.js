@@ -8,11 +8,7 @@ describe('Integration::page::DockerManage', function(){
     this.timeout(11000)
 
     const container_image = 'dply/selenium-standalone-stub'
-    const container_name = 'docker-manage-test-stub'
-
-    before(function(){
-      return DockerManage.rmf(container_name)
-    })
+    const container_name = `docker-manage-test-stub-${Date.now()}`
 
     after(function(){
       return DockerManage.rmf(container_name)
@@ -58,6 +54,35 @@ describe('Integration::page::DockerManage', function(){
         .containSubset({ state: 'running' })
     })
 
+
+    describe('testTcp', function(){
+
+      let server = null
+
+      before(function(done){
+        server = require('net').createServer(function(socket){
+          socket.write('Echo server\r\n')
+          socket.pipe(socket)
+        })
+        server.listen(50505, '127.0.0.1', done)
+      })
+
+      after(function(){
+        server.close()
+      })
+
+      it('should fail to test a closed tcp port', async function(){
+        return DockerManage.testTcp('127.0.0.1', 50504, 2, 50).should
+          .be.rejectedWith(/connect ECONNREFUSED/)
+      })
+
+      it('should test a tcp port', function(){
+        return DockerManage.testTcp('127.0.0.1', 50505, 2, 50)
+      })
+
+    })
+
+
     describe('runWaitTcp', function(){
 
       before(function () {
@@ -72,6 +97,7 @@ describe('Integration::page::DockerManage', function(){
         return DockerManage.runWaitTcp(
           container_image,
           { p: '40404:4444', name: container_name },
+          '127.0.0.1',
           40404
         ).should.eventually
           //.have.property('state').and.equal('running')
@@ -79,6 +105,7 @@ describe('Integration::page::DockerManage', function(){
       })
 
     })
+
 
     describe('runWaitHttp', function(){
 
@@ -98,6 +125,31 @@ describe('Integration::page::DockerManage', function(){
         ).should.eventually
           //.have.property('state').and.equal('running')
           .containSubset({ state: 'running' })
+      })
+
+    })
+
+
+    describe('down from running', function(){
+
+      before(function () {
+        return DockerManage.up(container_image, container_name).delay(20)
+      })
+
+      after(function () {
+        return DockerManage.rmf(container_name)
+      })
+
+      it('should down a running container', function(){
+        return DockerManage.down(container_name).should.eventually
+          //.have.property('state').and.equal('running')
+          .containSubset({ state: 'none' })
+      })
+
+      it('should check that container is actually down', function(){
+        return DockerManage.check(container_name).should.eventually
+          //.have.property('state').and.equal('running')
+          .containSubset({ state: 'none' })
       })
 
     })

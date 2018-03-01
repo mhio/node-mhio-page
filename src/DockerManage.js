@@ -17,27 +17,34 @@ class DockerManage {
     return SpawnCommand.run('docker', args)
   }
 
-  static testTcp( port, retry = 1, retries = 10, delay = 500 ){
-    return Promise.try(()=> {
+  static testTcp( host, port, retries = 10, delay = 200, retry = 1 ){
+    return new Promise((resolve, reject)=> {
       debug('testTcp %s - retry %s', port, retry)
-      return needle('get', `http://127.0.0.1:${port}/wd/hub/sessions`)
-        .then(res => {
-          if (res.statusCode !== 200) {
-            let err = new Error(`Bad status code for /sessions ${res.statusCode}`)
-            err.res = res
-            throw err
-          }
-          return { state: 'running', retry: retry }
-        })
-        .catch(error => {
-          if (retry > retries) throw error
-          return Promise.delay(delay)
-            .then(()=>this.testTcp(port, retry+1))
-        })
+      let client = require('net').Socket()
+
+      client.connect(port, host, function(){
+        debug('connected', host, port)
+        client.destroy()
+        resolve({ state: 'running', retry: retry })
+      })
+
+      client.on('close', function() {
+        debug('socket closed', host, port)
+      })
+
+      client.on('error', function(err){
+        debug('testTCP got error', host, port, err)
+        reject(err)
+      })
+    })
+    .catch(error => {
+      if (retry > retries) throw error
+      return Promise.delay(delay)
+        .then(()=> this.testTcp(host, port, retries, delay, retry+1))
     })
   }
 
-  static testHttp( url, retry = 1, retries = 10, delay = 500 ){
+  static testHttp( url, retries = 10, delay = 200, retry = 1 ){
     return Promise.try(()=> {
       debug('testHttp %s - retry %s', url, retry)
       return needle('get', url)
@@ -52,7 +59,7 @@ class DockerManage {
         .catch(error => {
           if (retry > retries) throw error
           return Promise.delay(delay)
-            .then(()=>this.testHttp(url, retry+1))
+            .then(()=>this.testHttp(url, retries, delay, retry+1))
         })
     })
   }
@@ -75,7 +82,7 @@ class DockerManage {
       }
 
     }).catch(err => {
-      //console.error('DockerManage "up" error:', err.results)
+      debug('DockerManage "up" error:', image_name, container_name, options, err)
       throw err
     })
   }
@@ -98,12 +105,13 @@ class DockerManage {
 
         default:
           debug('down Unknown state [%s]. Doing nothing', res.state)
+          let err = new Error(`DockerManage Container "${container_name}" is in an unknown state "${res.state}"`)
+          err.results = res
+          throw err
       }
 
-      return res
-
     }).catch(err => {
-      //console.error('DockerManage "down" error:', err.results)
+      debug('DockerManage "down" error:', container_name, err)
       throw err
     })
   }
@@ -163,16 +171,16 @@ class DockerManage {
   }
 
 
-  static startWaitTcp( container_name, port ){
+  static startWaitTcp( container_name, host, port, retries, delay ){
     // Some sort of health check would be more useful
     return DockerManage.start(container_name)
-      .then(()=> DockerManage.testTcp(port) )
+      .then(()=> DockerManage.testTcp(host, port, retries, delay))
   }
 
-  static startWaitHttp( container_name, url ){
+  static startWaitHttp( container_name, url, retries, delay ){
     // Some sort of health check would be more useful
     return DockerManage.start(container_name)
-      .then(()=> DockerManage.testHttp(url) )
+      .then(()=> DockerManage.testHttp(url, retries, delay))
   }
 
 
@@ -211,10 +219,10 @@ class DockerManage {
     })
   }
 
-  static runWaitTcp( container_image, options, port ){
+  static runWaitTcp( container_image, options, host, port ){
     // Some sort of health check would be more useful
     return DockerManage.run(container_image, options)
-      .then(()=> DockerManage.testTcp(port) )
+      .then(()=> DockerManage.testTcp(host, port) )
   }
 
   static runWaitHttp( container_image, options, url ){
