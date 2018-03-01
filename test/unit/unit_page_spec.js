@@ -14,6 +14,16 @@ describe('Unit::page::Page', function(){
 
   })
 
+  it('should create Page instance', function(){
+    let browsers = []
+    Page.eachBrowser(b => browsers.push(b))
+    expect( browsers ).to.eql(['chrome','firefox'])
+  })
+
+  it('should create Page instance', function(){
+    expect( Page.browsers() ).to.eql(['chrome','firefox'])
+  })
+
   describe('class', function(){
 
     let page = null

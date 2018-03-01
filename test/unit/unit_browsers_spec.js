@@ -11,7 +11,7 @@ describe('Unit::page::Browsers', function(){
     })
 
     it('should return browsers that have a container', function(){
-      expect( Browsers.thatHaveAContainer() ).to.eql( ['chrome','firefox'] )
+      expect( Browsers.thatHaveAContainer() ).to.eql( ['chrome', 'firefox'] )
     })
 
     it('should have chrome Browsers attached', function(){
