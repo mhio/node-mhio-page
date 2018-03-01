@@ -1,5 +1,4 @@
 /* global expect chai */
-const nock = require('nock')
 const { DockerManage } = require('../../src')
 chai.should()
 
