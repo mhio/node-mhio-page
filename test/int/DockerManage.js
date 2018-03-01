@@ -1,4 +1,5 @@
 /* global expect chai */
+const nock = require('nock')
 const { DockerManage } = require('../../src')
 chai.should()
 
@@ -78,6 +79,45 @@ describe('Integration::page::DockerManage', function(){
 
       it('should test a tcp port', function(){
         return DockerManage.testTcp('127.0.0.1', 50505, 2, 50)
+      })
+
+    })
+
+    describe('testHttp', function(){
+
+      let server = null
+      let port = null
+      let host = '127.0.0.1'
+
+      before(function(done){
+        let app = require('express')()
+        app.use((req, res, next) => {
+          if (req.url === '/good') res.send('good')
+          if (req.url === '/bad') res.status(403).send('bad')
+          next()
+        })
+        server = app.listen(()=> {
+          port = server.address().port
+          done()
+        })
+      })
+
+      after(function(){
+        server.close()
+      })
+
+      it('should fail to test a closed tcp port', async function(){
+        return DockerManage.testHttp(`http://${host}:${port-1}/`, 2, 50).should
+          .be.rejectedWith(/connect ECONNREFUSED/)
+      })
+
+      it('should test a bad request (404)', function(){
+        return DockerManage.testHttp(`http://${host}:${port}/bad`, 2, 50).should
+          .be.rejectedWith(/Bad status code for/)
+      })
+
+      it('should test a good request (200)', function(){
+        return DockerManage.testHttp(`http://${host}:${port}/good`, 2, 50)
       })
 
     })
