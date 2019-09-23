@@ -20,14 +20,14 @@ build_test_docker_stub(){
   docker pull selenium/standalone-chrome
   docker pull selenium/standalone-firefox
   cd test/fixture/selenium-stub
-  docker build -t dply/selenium-standalone-stub:latest . 
-  docker tag dply/selenium-standalone-stub:latest dply/selenium-standalone-stub:chrome
-  docker tag dply/selenium-standalone-stub:latest dply/selenium-standalone-stub:firefox
+  docker build -t mhio/selenium-standalone-stub:latest . 
+  docker tag mhio/selenium-standalone-stub:latest mhio/selenium-standalone-stub:chrome
+  docker tag mhio/selenium-standalone-stub:latest mhio/selenium-standalone-stub:firefox
 }
 
 run_docker_stop(){
-  docker stop dply-selenium-standalone-chrome dply-selenium-standalone-firefox
-  docker rm -f dply-selenium-standalone-chrome dply-selenium-standalone-firefox
+  docker stop mhio-selenium-standalone-chrome mhio-selenium-standalone-firefox
+  docker rm -f mhio-selenium-standalone-chrome mhio-selenium-standalone-firefox
 }
 
 
