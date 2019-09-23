@@ -72,12 +72,12 @@ describe('Integration::page::DockerManage', function(){
       })
 
       it('should fail to test a closed tcp port', async function(){
-        return DockerManage.testTcp('127.0.0.1', 50504, 2, 50).should
+        return await DockerManage.testTcp('127.0.0.1', 50504, 2, 50).should
           .be.rejectedWith(/connect ECONNREFUSED/)
       })
 
-      it('should test a tcp port', function(){
-        return DockerManage.testTcp('127.0.0.1', 50505, 2, 50)
+      it('should test a tcp port', async function(){
+        return await DockerManage.testTcp('127.0.0.1', 50505, 2, 50)
       })
 
     })

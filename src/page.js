@@ -148,8 +148,8 @@ class Page {
 
     // `remote_port` - Port of remote webdriver server.
     // Env `PAGE_REMOTE_PORT`.
-    this.remote_port = options.remote_port ||
-      process.env.PAGE_REMOTE_PORT ||
+    this.remote_port = Number(options.remote_port) ||
+      Number(process.env.PAGE_REMOTE_PORT) ||
       Browsers.wdPort(this.remote_browser) ||
       4444
 
@@ -174,7 +174,7 @@ class Page {
   init () {
 
     this.remote_options = {
-      desiredCapabilities: {
+      capabilities: {
         browserName: this.remote_browser
       },
       host: this.remote_host,
@@ -265,8 +265,7 @@ class Page {
 
   async initWebdriverReal(){
     this.debug('Setting up webdriver with remote options', this.remote_options)
-    this.browser = webdriverio.remote(this.remote_options)
-    return this.browser.init()
+    return this.browser = await webdriverio.remote(this.remote_options)
   }
 
   // Resolves promise when webdriver is ready.
@@ -320,7 +319,7 @@ class Page {
 
   // End the browser, usually in `after`
   async end(){
-    if (this.browser) return this.browser.end()
+    if (this.browser && this.browser.deleteSession) return this.browser.deleteSession()
     return true
     //return Promise.reject(new Error('No browser instance available'))
   }
@@ -356,7 +355,8 @@ class Page {
   async open( path ){
     let this_url = this.generateUrl(path)
     this.debug('open %s', this_url)
-    return this.browser.url(this_url)
+    this.browser.url(this_url)
+    return { status: 0, url: this_url }
   }
 
   // ### `.openUrl(url_String)`
@@ -397,7 +397,7 @@ class Page {
   // ### `.source()`
   // Get the complete source of the current browser.
   source(){
-    return this.browser.getSource()
+    return this.browser.getPageSource()
   }
 
   // ### `.text()`

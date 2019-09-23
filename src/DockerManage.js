@@ -24,12 +24,13 @@ class DockerManage {
 
       client.connect(port, host, function(){
         debug('connected', host, port)
-        client.destroy()
+        setTimeout(()=> client.destroy(), 15)
         resolve({ state: 'running', retry: retry })
       })
 
       client.on('close', function() {
         debug('socket closed', host, port)
+        //client.destroy()
       })
 
       client.on('error', function(err){

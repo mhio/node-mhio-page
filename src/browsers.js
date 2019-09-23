@@ -27,12 +27,12 @@ class Browsers {
 
   static wdPort(browser){
     if (!this.config[browser]) throw new Error(`Unsupported browser "${browser}"`)
-    return `${this.wd_port_prefix}${this.config[browser].id}`
+    return Number(`${this.wd_port_prefix}${this.config[browser].id}`)
   }
 
   static vncPort(browser){
     if (!this.config[browser]) throw new Error(`Unsupported browser "${browser}"`)
-    return `${this.vnc_port_prefix}${this.config[browser].id}`
+    return Number(`${this.vnc_port_prefix}${this.config[browser].id}`)
   }
 
 }

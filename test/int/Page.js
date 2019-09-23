@@ -100,13 +100,13 @@ describe('Integration::page::Page', function(){
 
       it('should open a url /test', function(){
         this.timeout(15000)
-        return page.open('/test').should
+        return expect( page.open('/test') ).to
           .eventually.have.property('status')
           .and.equal(0)
       })
 
       it('should open a default url', function(){
-        return page.open().should
+        return expect( page.open() ).to
           .eventually.have.property('status')
           .and.equal(0)
       })
