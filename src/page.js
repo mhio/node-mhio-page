@@ -1,5 +1,5 @@
 import debugr from 'debug'
-const debug = debugr('dply:page:Page')
+const debug = debugr('mhio:page:Page')
 
 const path = require('path')
 const webdriverio = require('webdriverio')
@@ -60,7 +60,7 @@ class Page {
   constructor ( options = {} ){
 
     this.uid = base62(12)
-    this.debug = debugr(`dply:page:Page[${this.uid}]`)
+    this.debug = debugr(`mhio:page:Page[${this.uid}]`)
     this.debug('creating a new Page with', Object.keys(options))
 
     // The instance property `promises` will be an array populated with
@@ -186,9 +186,9 @@ class Page {
     if ( process.env.DEBUG ) {
       if (
         /^webdriver/.exec(process.env.DEBUG) ||
-        /^dply:page/.exec(process.env.DEBUG) ||
-        /^dply:\*/.exec(process.env.DEBUG) ||
-        /^dply\*/.exec(process.env.DEBUG) ||
+        /^mhio:page/.exec(process.env.DEBUG) ||
+        /^mhio:\*/.exec(process.env.DEBUG) ||
+        /^mhio\*/.exec(process.env.DEBUG) ||
         /^\*/.exec(process.env.DEBUG)
       ) {
         this.remote_options.logLevel = 'verbose'

@@ -10,7 +10,7 @@ describe('Unit::page::Docker', function(){
     })
 
     it('should have a container name prefix', function(){
-      expect( Docker.name_prefix ).to.equal( 'dply-selenium-standalone-' )
+      expect( Docker.name_prefix ).to.equal( 'mhio-selenium-standalone-' )
     })
 
   })

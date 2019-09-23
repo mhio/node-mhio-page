@@ -1,4 +1,4 @@
-const debug = require('debug')('dply:page:browsers')
+const debug = require('debug')('mhio:page:browsers')
 const {map, compact} = require('lodash')
 
 class Browsers {

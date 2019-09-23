@@ -1,6 +1,6 @@
 {
-  "name": "@deployable/page",
-  "version": "0.4.1-0",
+  "name": "@mhio/page",
+  "version": "0.5.0-0",
   "description": "Page layout and component testing with Webdriver.io",
   "main": "lib/index.js",
   "scripts": {
@@ -25,14 +25,14 @@
     "deployable",
     "module"
   ],
-  "author": "Matt Hoyle <code atat deployable.co>",
+  "author": "mhio <mhionpmax atat dply.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deployable/node-deployable-page/issues"
+    "url": "https://github.com/mhio/node-mhio-page/issues"
   },
-  "homepage": "https://github.com/deployable/node-deployable-page#readme",
+  "homepage": "https://github.com/mhio/node-mhio-page#readme",
   "devDependencies": {
-    "@deployable/test": "0.3.0",
+    "@mhio/test": "0.3.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-preset-env": "^1.6.1",
@@ -43,19 +43,19 @@
     "chai-subset": "^1.6.0",
     "express": "^4.15.2",
     "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "^4.0.1",
+    "jsdoc-to-markdown": "^5.0.1",
     "lodash": "^4.17.4",
     "lodash.find": "^4.6.0",
-    "mocha": "^5.0.1",
-    "nyc": "^11.4.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
     "source-map-support": "^0.5.3"
   },
   "dependencies": {
     "base62-random": "^0.3.5",
     "bluebird": "^3.5.0",
-    "debug": "^3.1.0",
+    "debug": "^4.1.1",
     "needle": "^2.2.0",
-    "webdriverio": "^4.7.1"
+    "webdriverio": "^5.13.1"
   },
   "peerDependencies": {
     "webdriverio": "^4.7"

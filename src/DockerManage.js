@@ -1,4 +1,4 @@
-const debug = require('debug')('dply:page:DockerManage')
+const debug = require('debug')('mhio:page:DockerManage')
 const Promise = require('bluebird')
 const needle = require('needle')
 

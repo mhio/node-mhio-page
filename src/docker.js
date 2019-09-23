@@ -1,4 +1,4 @@
-const debug = require('debug')('dply:page:docker')
+const debug = require('debug')('mhio:page:docker')
 const Promise = require('bluebird')
 const needle = require('needle')
 
@@ -12,14 +12,14 @@ class Docker {
 
   static init(){
     this.image_prefix = 'selenium/standalone-'
-    this.name_prefix = 'dply-selenium-standalone-'
+    this.name_prefix = 'mhio-selenium-standalone-'
     this.testing = false
     this.containers = {}
   }
 
   static testingInit(){
-    this.image_prefix = 'dply/selenium-standalone-stub:'
-    this.name_prefix = 'dply-selenium-standalone-testing-'
+    this.image_prefix = 'mhio/selenium-standalone-stub:'
+    this.name_prefix = 'mhio-selenium-standalone-testing-'
     this.testing = true
     this.containers = {}
   }

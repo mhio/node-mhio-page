@@ -1,4 +1,4 @@
-const debug = require('debug')('dply:page:SpawnCommand')
+const debug = require('debug')('mhio:page:SpawnCommand')
 const Promise = require('bluebird')
 const { spawn }= require('child_process')
 
