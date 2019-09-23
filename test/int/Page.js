@@ -1,7 +1,7 @@
 /* global expect chai */
 const debug = require('debug')('dply:test:int:page')
 const { Page, Browsers } = require('../../src')
-const { TestEnv } = require('@deployable/test')
+const { TestEnv } = require('@mhio/test')
 chai.should()
 
 // Test fixture app
