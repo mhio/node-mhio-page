@@ -1,19 +1,20 @@
 /* global expect chai */
-const debug = require('debug')('mhio:test:int:page')
+const debug = require('debug')('mhio:page:test:int:Page')
 const { Page, Browsers } = require('../../src')
 const { TestEnv } = require('@mhio/test')
 chai.should()
 
 // Test fixture app
 const app = require('express')()
-const app_html = '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>atitle</title></head><body><div id="adiv">abody</div></body></html>'
+//const app_html = '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>atitle</title></head><body><div id="adiv">abody</div></body></html>'
+const app_html = '<html><head><title>atitle</title></head><body><div id="adiv">abody</div></body></html>'
 app.get('/',(req, res)=> res.send('hello!'))
 app.get('/test',(req, res)=> {
   res.send(app_html)
 })
 
 
-describe('Integration::page::Page', function(){
+describe('int::Page', function(){
 
   const test_env = TestEnv.setupTestDir(__dirname)
 

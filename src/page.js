@@ -363,10 +363,20 @@ class Page {
   // Open a full url, not relying on defaults
   async openUrl( full_url ){
     this.debug('open url %s', full_url)
-    return this.browser.url(full_url)
+    this.browser.url(full_url)
+    return { status: 0, url: full_url }
   }
 
   // ### Actions
+
+  // ### `.findElement()`
+  // Select an element  
+  async findElement(selector){
+    return this.browser.$(selector)
+  }
+  $(selector){
+    return this.findElement(selector)
+  }
 
   // ### `.title()`
   // Get the current pages title.
@@ -377,21 +387,25 @@ class Page {
   // ### `.exists(css_String)`
   // Does a css selector exist in the current page.
   async exists( selector ){
-    return this.browser.isExisting(selector)
+    let elem = await this.findElement(selector)
+    debug('elem selector [%s]', selector, elem)
+    return elem.isExisting()
   }
 
   // ### `.wait( css_String, ms_Number` )
   // Wait for a selector to exist.
   // `timeout` defaults to 500ms.
   async wait( selector, timeout = 500 ){
-    return this.browser.waitForExist(selector, timeout)
+    let elem = await this.findElement(selector)
+    return elem.waitForExist(timeout)
   }
 
   // ### `.html( css_String )`
   // Get the html from the current browser, with an optional selector.
   // The selector defaults to `body`.
-  html( selector = 'body' ){
-    return this.browser.getHTML(selector)
+  async html( selector = 'body' ){
+    let elem = await this.findElement(selector)
+    return elem.getHTML()
   }
 
   // ### `.source()`
@@ -402,8 +416,9 @@ class Page {
 
   // ### `.text()`
   // Get the text component of an element
-  text( selector = 'body' ){
-    return this.browser.getText(selector)
+  async text( selector = 'body' ){
+    let elem = await this.findElement(selector)
+    return elem.getText()
   }
 
   // ### `.screenShotPath( paths... )`
