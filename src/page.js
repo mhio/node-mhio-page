@@ -189,10 +189,19 @@ class Page {
         /^mhio:page/.exec(process.env.DEBUG) ||
         /^mhio:\*/.exec(process.env.DEBUG) ||
         /^mhio\*/.exec(process.env.DEBUG) ||
+        /^mhi\*/.exec(process.env.DEBUG) ||
+        /^mh\*/.exec(process.env.DEBUG) ||
+        /^m\*/.exec(process.env.DEBUG) ||
         /^\*/.exec(process.env.DEBUG)
       ) {
-        this.remote_options.logLevel = 'verbose'
+        this.remote_options.logLevel = 'trace'
+        this.remote_options.logLevels = { webdriver: 'trace' }
+        console.debug('enabling DEBUG due to process.env.DEBUG', process.env.DEBUG)
       }
+    }
+    else {
+      this.remote_options.logLevel = 'error'
+      this.remote_options.logLevels = { webdriver: 'error' }
     }
     this.debug('remote options', this.remote_options)
 
