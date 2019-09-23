@@ -11,5 +11,5 @@ ADD . /app
 
 USER nobody
 EXPOSE 4444
-CMD ["/usr/bin/node", "/app/index.js"]
+CMD ["/usr/local/bin/node", "/app/index.js"]
 
