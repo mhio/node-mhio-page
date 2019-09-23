@@ -7,7 +7,7 @@ describe('Integration::page::DockerManage', function(){
   describe('Commands on stub container', function(){
     this.timeout(11000)
 
-    const container_image = 'dply/selenium-standalone-stub'
+    const container_image = 'mhio/selenium-standalone-stub'
     const container_name = `docker-manage-test-stub-${Date.now()}`
 
     after(function(){

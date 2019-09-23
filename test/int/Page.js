@@ -1,5 +1,5 @@
 /* global expect chai */
-const debug = require('debug')('dply:test:int:page')
+const debug = require('debug')('mhio:test:int:page')
 const { Page, Browsers } = require('../../src')
 const { TestEnv } = require('@mhio/test')
 chai.should()
