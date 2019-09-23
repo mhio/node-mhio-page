@@ -19,13 +19,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deployable/node-deployable-page.git"
+    "url": "git+https://github.com/mhio/node-mhio-page.git"
   },
   "keywords": [
     "deployable",
     "module"
   ],
-  "author": "mhio <mhionpmax atat dply.net>",
+  "author": "mhio <mhionpmrx atat dply.net>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mhio/node-mhio-page/issues"

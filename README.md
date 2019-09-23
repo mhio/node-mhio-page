@@ -1,4 +1,4 @@
-# [deployable-page](https://github.com/deployable/node-deployable-page)
+# [mhio-page](https://github.com/mhio/node-mhio-page)
 
 ## Page layout and component testing with Webdriver.io
 
@@ -13,17 +13,17 @@ test helpers for your page layouts and components
 
 Yarn
 
-    yarn add @deployable/page --dev
+    yarn add @mhio/page --dev
 
 NPM
 
-    npm install @deployable/page --save-dev
+    npm install @mhio/page --save-dev
 
 
 ## Usage
 
 ```javascript
-const { Page } = require('@deployable/page')
+const { Page } = require('@mhio/page')
 
 class SearchPage extends Page {
 
@@ -200,10 +200,9 @@ Take a screenshot of the current browser. Relative paths require `.screenShotPat
 
 ## About
 
-deployable-page is released under the MIT license.
+mhio-page is released under the MIT license.
 
-Copyright 2016 Matt Hoyle - code atat deployable.co
+Copyright 2019 mhio
 
-https://github.com/deployable/node-deployable-page
-https://deployable.co/code/node/page
+https://github.com/mhio/node-mhio-page
 
