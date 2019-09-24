@@ -90,17 +90,17 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@mhio/exception@0.2.1-2":
-  version "0.2.1-2"
-  resolved "https://registry.npmjs.org/@mhio/exception/-/exception-0.2.1-2.tgz#729e7b94087c840fe3eb746121548c6497ab8994"
-  integrity sha512-q/akfPwgI9oMLZk/gILjYIaiBYiyLOE9c+iiRQG+VP0wr6lLGBVgi41O7TeeIQr2AYJgHKtMIY+UKusiw2sUjw==
+"@mhio/exception@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/@mhio/exception/-/exception-0.2.1.tgz#054c27f09bb7bb1d48461ab707a931873e12f9d9"
+  integrity sha512-nhdUeHjIV8SwQXHucQHXjIltt8Cndw9iNiyejdAcPtZKro6W8MYbdOxdz9Q+T+yWntC9ub7rRMWDcao5sBpbDw==
 
-"@mhio/test@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/@mhio/test/-/test-0.4.0.tgz#118bfaf6b397944ae717ffa677eac57c06c3f1f5"
-  integrity sha512-XuMj6I8DJBwnws3Pwuiq2JWViHUIKowIla8eGeauLf9h9WMq6Kc6jGGS3V2AQspjqQMJyeykS41mN8PMExGv5A==
+"@mhio/test@~0.4.2":
+  version "0.4.2"
+  resolved "https://registry.npmjs.org/@mhio/test/-/test-0.4.2.tgz#f3fa79f856c9edd03ef65e3f5e35d1cb28fe9bdf"
+  integrity sha512-FaO8VjcQgeXr5rmYCcWf5IR0wLjCoZp6Hm7YwwTBMjmZ1JTT/H3+dbQg7ybLRGAakXiMgvz9U/dcUQ0DmMeBNg==
   dependencies:
-    "@mhio/exception" "0.2.1-2"
+    "@mhio/exception" "^0.2.1"
     bluebird "^3.0.1"
     debug "^4.1.1"
     fs-extra "^8.1.0"

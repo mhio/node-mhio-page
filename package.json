@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/mhio/node-mhio-page#readme",
   "devDependencies": {
-    "@mhio/test": "0.4.0",
+    "@mhio/test": "~0.4.2",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-preset-env": "^1.6.1",
