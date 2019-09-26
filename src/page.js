@@ -1,6 +1,6 @@
 import path from 'path'
 import debugr from 'debug'
-import webdriverio from 'webdriverio'
+import * as webdriverio from 'webdriverio'
 import _ from 'lodash'
 import _has from 'lodash/has'
 import _find from 'lodash/find'
@@ -369,6 +369,8 @@ class Page {
     let this_url = this.generateUrl(path)
     this.debug('open %s', this_url)
     this.browser.url(this_url)
+    let body = await this.browser.$('body')
+    return body.waitForExist(1000)
     return { status: 0, url: this_url }
   }
 
@@ -377,6 +379,8 @@ class Page {
   async openUrl( full_url ){
     this.debug('open url %s', full_url)
     this.browser.url(full_url)
+    let body = await this.browser.$('body')
+    return body.waitForExist(1000)
     return { status: 0, url: full_url }
   }
 
@@ -423,7 +427,7 @@ class Page {
 
   // ### `.source()`
   // Get the complete source of the current browser.
-  source(){
+  async source(){
     return this.browser.getPageSource()
   }
 

@@ -101,22 +101,22 @@ describe('int::Page', function(){
 
       it('should open a url /test', function(){
         this.timeout(15000)
-        return expect( page.open('/test') ).to
-          .eventually.have.property('status')
-          .and.equal(0)
+        return expect( page.open('/test') ).to.become(true)
+          //.eventually.have.property('status')
+          //.and.equal(0)
       })
 
       it('should open a default url', function(){
-        return expect( page.open() ).to
-          .eventually.have.property('status')
-          .and.equal(0)
+        return expect( page.open() ).to.become(true)
+          // .eventually.have.property('status')
+          // .and.equal(0)
       })
 
       it('should open a full url for /test', function(){
         let full_url = page.generateUrl('/test')
-        return page.openUrl(full_url).should
-          .eventually.have.property('status')
-          .and.equal(0)
+        return expect( page.openUrl(full_url) ).to.become(true)
+          //.eventually.have.property('status')
+          //.and.equal(0)
       })
 
 
