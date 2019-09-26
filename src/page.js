@@ -1,16 +1,17 @@
+import path from 'path'
 import debugr from 'debug'
-const debug = debugr('mhio:page:Page')
-
-const path = require('path')
-const webdriverio = require('webdriverio')
-const _ = require('lodash')
-const Promise = require('bluebird')
-const needle = require('needle')
-const base62 = require('base62-random')
-
+import webdriverio from 'webdriverio'
+import _ from 'lodash'
+import _has from 'lodash/has'
+import _find from 'lodash/find'
+import Promise from 'bluebird'
+import needle from 'needle'
+import base62 from 'base62-random'
 
 const {Browsers} = require('./browsers')
 const {Docker} = require('./docker')
+
+const debug = debugr('mhio:page:Page')
 
 // Webdriver IO Page helper
 
@@ -19,6 +20,8 @@ class WebDriverIoStub {
   end(){}
 }
 
+
+// Generic Page helper, to be extended
 
 class Page {
 
@@ -38,7 +41,7 @@ class Page {
   // Won't always be right but close enough.
   static ip( family = 'IPv4', internal = false ){
     let ip = _(require('os').networkInterfaces())
-      .map(o => _.find(o, {internal: internal, family: family}))
+      .map(o => _find(o, {internal: internal, family: family}))
       .compact()
       .first()
       .address
@@ -74,6 +77,7 @@ class Page {
     this.label = options.label || 'default'
 
     // `app` - An express app to launch and test against.
+    if (_has(options,'app') && !options.app) throw new Error('Page constructor: "app" in options is falsey')
     this.app = options.app
 
     // `docker` - Use selenium in a local container (firefox/chrome)

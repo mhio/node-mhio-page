@@ -27,14 +27,14 @@
     "test",
     "webdriver"
   ],
-  "author": "mhio <mhionpmrx atat dply.net>",
+  "author": "mhio",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mhio/node-mhio-page/issues"
   },
   "homepage": "https://github.com/mhio/node-mhio-page#readme",
   "devDependencies": {
-    "@mhio/test": "~0.4.2",
+    "@mhio/test": "^0.4.4",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-preset-env": "^1.6.1",
@@ -46,7 +46,7 @@
     "express": "^4.15.2",
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "^5.0.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.15",
     "lodash.find": "^4.6.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
@@ -58,9 +58,6 @@
     "debug": "^4.1.1",
     "needle": "^2.2.0",
     "webdriverio": "^5.13.1"
-  },
-  "peerDependencies": {
-    "webdriverio": "^4.7"
   },
   "nyc": {
     "per-file": true,
