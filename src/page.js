@@ -340,7 +340,7 @@ class Page {
   // Close down everything, end the browser and any selenium, usually in `after`
   async close(){
     let promises = []
-    if (this.browser) promises.push(this.browser.end())
+    if (this.browser) promises.push(this.end())
     if (this.docker) promises.push(Docker.down(this.remote_browser))
     return Promise.all(promises)
   }
@@ -393,6 +393,13 @@ class Page {
   }
   $(selector){
     return this.findElement(selector)
+  }
+
+  // ### `.fillField()`
+  // Find an input element and set the value.
+  async fillField(selector, value) {
+    const el = await this.$(selector)
+    return el.setValue(value)
   }
 
   // ### `.title()`
