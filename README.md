@@ -197,6 +197,14 @@ Set the default screen shot path
 Take a screenshot of the current browser. Relative paths require `.screenShotPath()` to have been set.
 
 
+### `.getValue(selector)`
+
+Get the value from a form field with a selector
+
+
+### `.setValue(selector)`
+
+Set the value of a form field, via selector
 
 ## About
 
