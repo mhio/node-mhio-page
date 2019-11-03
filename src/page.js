@@ -402,6 +402,12 @@ class Page {
     return el.setValue(value)
   }
 
+  // Find an  element and get the value.
+  async getValue(selector) {
+    const el = await this.$(selector)
+    return el.getValue()
+  }
+
   // ### `.title()`
   // Get the current pages title.
   async title(){
