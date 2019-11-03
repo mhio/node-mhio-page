@@ -395,12 +395,14 @@ class Page {
     return this.findElement(selector)
   }
 
-  // ### `.fillField()`
+  // ### `.setValue()`
   // Find an input element and set the value.
-  async fillField(selector, value) {
+  // `.fillField()` is an alias
+  async setValue(selector, value) {
     const el = await this.$(selector)
     return el.setValue(value)
   }
+  async fillField(selector, value) { return this.setValue(selector, value) }
 
   // Find an  element and get the value.
   async getValue(selector) {
