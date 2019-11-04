@@ -8,10 +8,10 @@ chai.should()
 const app = require('express')()
 //const app_html = '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>atitle</title></head><body><div id="adiv">abody</div></body></html>'
 const app_html = '<html><head><title>atitle</title></head><body><div id="adiv">abody</div></body></html>'
-app.get('/',(req, res)=> res.send('hello!'))
-app.get('/test',(req, res)=> {
-  res.send(app_html)
-})
+const app_form = '<html><head><title>aform</title></head><body><form><input type="text" id="textfield" value="avalue"/></body></html>'
+app.get('/', (req, res)=> res.send('hello!'))
+app.get('/test', (req, res)=> res.send(app_html))
+app.get('/form', (req, res)=> res.send(app_form))
 
 
 describe('int::Page', function(){
@@ -156,6 +156,27 @@ describe('int::Page', function(){
 
       })
 
+      describe('/form', function(){
+
+        before('opening /form', function(){
+          return page.open('/form')
+        })
+
+        it('should get the forms value', function(){
+          return expect( page.getValue('#textfield') ).to.become( 'avalue' )
+        })
+
+        it('should set the form fields new value', async function(){
+          await page.setValue('#textfield', 'newvalue')
+          return expect( page.getValue('#textfield') ).to.become( 'newvalue' )
+        })
+
+        it('should set the form fields new value via fillField', async function(){
+          await page.fillField('#textfield', 'fieldvalue')
+          return expect( page.getValue('#textfield') ).to.become( 'fieldvalue' )
+        })
+
+      })
 
       describe('screen shot', function(){
 
