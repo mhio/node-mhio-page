@@ -154,6 +154,10 @@ describe('int::Page', function(){
           return expect( page.html('#adiv') ).to.become( '<div id="adiv">abody</div>' )
         })
 
+        it('should get the text of #adiv element', function(){
+          return expect( page.text('#adiv') ).to.become( 'abody' )
+        }) 
+
       })
 
       describe('/form', function(){
