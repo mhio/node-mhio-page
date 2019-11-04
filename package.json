@@ -1,6 +1,6 @@
 {
   "name": "@mhio/page",
-  "version": "0.7.0-0",
+  "version": "0.7.0-1",
   "description": "Page layout and component testing with Webdriver.io",
   "main": "lib/index.js",
   "scripts": {
