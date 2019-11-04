@@ -2,7 +2,7 @@ const debug = require('debug')('mhio:page:DockerManage')
 const Promise = require('bluebird')
 const needle = require('needle')
 
-const { SpawnCommand } = require('./SpawnCommand')
+const { Spawn } = require('@mhio/spawn')
 
 // Manage the selenium docker containers.
 // Should be using an API rather than docker command line
@@ -14,7 +14,7 @@ class DockerManage {
 
   // Run a generic `docker` passing along all args.
   static command(args){
-    return SpawnCommand.run('docker', args)
+    return Spawn.run([ 'docker', ...args ])
   }
 
   static testTcp( host, port, retries = 10, delay = 200, retry = 1 ){
@@ -190,7 +190,7 @@ class DockerManage {
       'start',
       `${container_name}`
     ])
-    .delay(40)
+    .then(()=> Promise.delay(40))
     .then(()=> ({ state: 'running', via: 'start' }))
   }
 
@@ -212,7 +212,7 @@ class DockerManage {
     .catch(err => {
       if (err.results) {
         let res = err.results
-        if ( res.exit_code === 1 && /No such container: /.test(res.stderr_buffer.toString()) ){
+        if ( res.exit_code === 1 && res.stderr.some(line => /No such container: /.exec(line)) ){
           return { state: 'none', via: 'rmf' }
         }
       }
@@ -250,15 +250,13 @@ class DockerManage {
 
       let p = DockerManage
         .command(command_opts)
-        .delay(40) // allow a process in the continer to achieve something
+        .then(() => Promise.delay(40)) // allow a process in the continer to achieve something
         .then(() => ({ state: 'running', via: 'run' }))
 
       resolve(p)
 
     })
   }
-
-
 
 }
 

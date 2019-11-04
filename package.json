@@ -1,6 +1,6 @@
 {
   "name": "@mhio/page",
-  "version": "0.6.0",
+  "version": "0.7.0-0",
   "description": "Page layout and component testing with Webdriver.io",
   "main": "lib/index.js",
   "scripts": {
@@ -34,8 +34,14 @@
   },
   "homepage": "https://github.com/mhio/node-mhio-page#readme",
   "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-transform-async-to-generator": "^7.5.0",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
     "@mhio/test": "^0.4.4",
     "@wdio/mocha-framework": "^5.13.2",
+    "babel-eslint": "^10.0.3",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-fs": "^2.0.0",
@@ -50,12 +56,7 @@
     "source-map-support": "^0.5.3"
   },
   "dependencies": {
-    "@babel/cli": "^7.6.2",
-    "@babel/core": "^7.6.2",
-    "@babel/plugin-transform-async-to-generator": "^7.5.0",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/register": "^7.6.2",
-    "babel-eslint": "^10.0.3",
+    "@mhio/spawn": "0.6.0-1",
     "base62-random": "^0.3.5",
     "bluebird": "^3.5.0",
     "debug": "^4.1.1",

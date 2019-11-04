@@ -172,7 +172,7 @@ describe('Integration::page::DockerManage', function(){
     describe('down from running', function(){
 
       before(function () {
-        return DockerManage.up(container_image, container_name).delay(20)
+        return DockerManage.up(container_image, container_name)
       })
 
       after(function () {

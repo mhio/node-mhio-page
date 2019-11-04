@@ -150,7 +150,7 @@ class Docker {
         err.results.exit_code === 1 &&
         err.results.stderr &&
         err.results.stderr[0] &&
-        err.results.stderr[0].match(/No such (object|container)/)
+        /No such (object|container)/.exec(err.results.stderr[0])
       ) {
         return { state: 'none', via: 'check' }
       }
@@ -177,7 +177,7 @@ class Docker {
       'start',
       `${this.name_prefix}${browser}`
     ])
-    .delay(40)
+    .then(()=> Promise.delay(40))
     .then(()=> ({ state: 'running', via: 'start' }))
   }
 
@@ -199,7 +199,7 @@ class Docker {
     .catch(err => {
       if (err.results) {
         let res = err.results
-        if ( res.exit_code === 1 && /No such container: /.test(res.stderr_buffer.toString()) ){
+        if ( res.exit_code === 1 && res.stderr.some(line => /No such container: /.exec(line)) ){
           return { state: 'none', via: 'rmf' }
         }
       }
@@ -226,7 +226,7 @@ class Docker {
         '-p', `${wd}:4444`,
         `${this.image_prefix}${browser}`
       ])
-      .delay(40)
+      .then(() => Promise.delay(40))
       .then(() => ({ state: 'running', via: 'run' }))
 
       resolve(p)
