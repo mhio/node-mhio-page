@@ -780,14 +780,24 @@
   resolved "https://registry.npmjs.org/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@wdio/config@5.18.4":
-  version "5.18.4"
-  resolved "https://registry.npmjs.org/@wdio/config/-/config-5.18.4.tgz#cabbac2f42bb1f8ac768f79d0e7671976d97d30e"
-  integrity sha512-HQugjG+BABDYG/1dPR6KA+IQilsg1MSQ/NVIg8R6I8ER9MA2JNIoaxvXZ+CnDfgY/QpyIHEeqJhfgw8GElaPdw==
+"@wdio/config@5.13.2":
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/@wdio/config/-/config-5.13.2.tgz#f1581fcbf45983dc11aeea933e8890231bccf8bf"
+  integrity sha512-TbkcAcVlEZ5l08jFO6QGKQNB/Lo8SYmQyNYhnA4MxFnhEboOgZamR+kpSN7H0oOt9Q6/pGoFP2Q1NOCxoYrlsQ==
   dependencies:
-    "@wdio/logger" "5.16.10"
+    "@wdio/logger" "5.13.2"
     deepmerge "^4.0.0"
     glob "^7.1.2"
+
+"@wdio/logger@5.13.2":
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/@wdio/logger/-/logger-5.13.2.tgz#417f580f0882ff6d6ec2bd2c210502f2f8fa4f2b"
+  integrity sha512-F8NlP+AoN0zKv8+0iDAJxdbb488kk5LlPA6U6XPgTT/1xxPgpM4MVQoiCGtLOU9UNPX9XLfgoCXyYWMxp96Ncg==
+  dependencies:
+    chalk "^2.3.0"
+    loglevel "^1.6.0"
+    loglevel-plugin-prefix "^0.8.4"
+    strip-ansi "^5.2.0"
 
 "@wdio/logger@5.16.10":
   version "5.16.10"
@@ -808,17 +818,25 @@
     "@wdio/utils" "5.18.6"
     mocha "^7.0.1"
 
-"@wdio/protocols@5.18.7":
-  version "5.18.7"
-  resolved "https://registry.npmjs.org/@wdio/protocols/-/protocols-5.18.7.tgz#d470aeff16054195868341f9b74281fb3bb513bf"
-  integrity sha512-Docjl1mGwjsd7xU/eEMspWPWiMUniHxtzXfr/7aDTIlkfh5fazR5NmBPVLHBZNYbe+wPndgc2i/WNZHAKVTx7A==
+"@wdio/protocols@5.13.2":
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/@wdio/protocols/-/protocols-5.13.2.tgz#06718f8d8a173a8756e2147d7b7c6d8163f3b43a"
+  integrity sha512-R6QJaa8gSew50LWrGcy/kO01xzDx4fpSoX25GYvLc/Q7gEYyDwdfiB7vIPWnKR7pHjBujNDt100ACSA3Aen/gw==
 
-"@wdio/repl@5.18.6":
-  version "5.18.6"
-  resolved "https://registry.npmjs.org/@wdio/repl/-/repl-5.18.6.tgz#6e3467ff6e52879f726579a2053baf98a00e9a0f"
-  integrity sha512-z9UPBk/Uee0l9g0ijnOatU3WP7TcpIyNtRj9AGsJVbYZFwqMWBqPkO4nblldyNQIuqdgXAPsDo8lPGDno12/oA==
+"@wdio/repl@5.13.2":
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/@wdio/repl/-/repl-5.13.2.tgz#6a7a56ff231c4dd926c26c4bfc1cddc0e90b74ce"
+  integrity sha512-mNGj+UcodJTQa4Ecb30iItdcRHrB7GhC+DT0+/J/cO2MQPIf3ZlcpsBGTXZL8ZHcpOUYm0nLt2vKchdRPGVRtw==
   dependencies:
-    "@wdio/utils" "5.18.6"
+    "@wdio/config" "5.13.2"
+
+"@wdio/utils@5.13.2":
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/@wdio/utils/-/utils-5.13.2.tgz#2e56b5488521e394bce02de9b4236f21d1d582eb"
+  integrity sha512-DGwoZZKpGo6BkLOIXnBHu+9mg0RABq0Sh9cb1GLOAeBeIEW7efCDYqT9+rczEJSgHKnKJra1+T8I4IfoxyUX/w==
+  dependencies:
+    "@wdio/logger" "5.13.2"
+    deepmerge "^4.0.0"
 
 "@wdio/utils@5.18.6":
   version "5.18.6"
@@ -1372,7 +1390,7 @@ chai@^4.1.2:
     pathval "^1.1.0"
     type-detect "^4.0.5"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.4.2:
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -4990,27 +5008,27 @@ walk-back@^4.0.0:
   resolved "https://registry.npmjs.org/walk-back/-/walk-back-4.0.0.tgz#9e4ad2bd72038f3beed2d83180f9fd40b233bfab"
   integrity sha512-kudCA8PXVQfrqv2mFTG72vDBRi8BKWxGgFLwPpzHcpZnSwZk93WMwUDVcLHWNsnm+Y0AC4Vb6MUNRgaHfyV2DQ==
 
-webdriver@5.18.7:
-  version "5.18.7"
-  resolved "https://registry.npmjs.org/webdriver/-/webdriver-5.18.7.tgz#78fd17228bb2668800d26bc60bc92c1c1eb194b4"
-  integrity sha512-KmivyLYCuFyEruCNloDjIQl05i/fybTwp4HNdSnxjPi0K0TIhWZ35sg6tQTgEyRIEgmLOnlhoY1WciuWm5Lr8Q==
+webdriver@5.13.2:
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/webdriver/-/webdriver-5.13.2.tgz#12d7500dd880248ed250929283aa0a94596b4d38"
+  integrity sha512-kjWA4McZfmBByudukvSjSW4upaoreSlDAhyxj2lpViHu0I5P25acGvUJiZWrp+TCW8bYzZc8m27XBwB/N3ow4A==
   dependencies:
-    "@wdio/config" "5.18.4"
-    "@wdio/logger" "5.16.10"
-    "@wdio/protocols" "5.18.7"
-    "@wdio/utils" "5.18.6"
+    "@wdio/config" "5.13.2"
+    "@wdio/logger" "5.13.2"
+    "@wdio/protocols" "5.13.2"
+    "@wdio/utils" "5.13.2"
     lodash.merge "^4.6.1"
     request "^2.83.0"
 
-webdriverio@^5.13.1:
-  version "5.18.7"
-  resolved "https://registry.npmjs.org/webdriverio/-/webdriverio-5.18.7.tgz#ccfd39f511c32a975a84d2ba977d61c82869eadc"
-  integrity sha512-VZJ4e4oqoqud3Ytwf5TBtRQOeMkxFHnIke3Tt0/bcgLb6dFgQ29v38syZKbyHRlTO2RGKQ+/qvfdDYpAW2O0OQ==
+webdriverio@~5.13.1:
+  version "5.13.2"
+  resolved "https://registry.npmjs.org/webdriverio/-/webdriverio-5.13.2.tgz#a64f8cccafdb6fdc9d6f2dbfec981f3378f7d3c4"
+  integrity sha512-SaAMnDqfrxdwQfNFh5Aegn8DqzL6nF07efpDpgHNLJxT7muXSRQg/DWh8GYYNBiCT/GFNtCvj3leoaFAQaHoiA==
   dependencies:
-    "@wdio/config" "5.18.4"
-    "@wdio/logger" "5.16.10"
-    "@wdio/repl" "5.18.6"
-    "@wdio/utils" "5.18.6"
+    "@wdio/config" "5.13.2"
+    "@wdio/logger" "5.13.2"
+    "@wdio/repl" "5.13.2"
+    "@wdio/utils" "5.13.2"
     archiver "^3.0.0"
     css-value "^0.0.1"
     grapheme-splitter "^1.0.2"
@@ -5021,7 +5039,7 @@ webdriverio@^5.13.1:
     resq "^1.6.0"
     rgb2hex "^0.1.0"
     serialize-error "^5.0.0"
-    webdriver "5.18.7"
+    webdriver "5.13.2"
 
 which-module@^2.0.0:
   version "2.0.0"
