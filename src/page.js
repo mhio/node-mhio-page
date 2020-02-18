@@ -21,24 +21,42 @@ class WebDriverIoStub {
 }
 
 
-// Generic Page helper, to be extended
-
+/**
+ * Generic Page helper, to be extended
+ * @param {string} msg
+ * @param {object} [options]
+ */
 class Page {
 
-  static classInit(){
+  static _classInitialisation(){
 
   }
 
+  /**
+   * Does something for all browsers in page.
+   * Usually for a mocha `describe` or `it` block. 
+   * @param {function} fn   -  The function you want to run. 
+   */
   static eachBrowser(fn){
     return this.browsers().forEach(fn)
   }
 
+  /**
+  * Does something for all browsers in page.
+  * Usually for a mocha `describe` or `it` block.
+  * @returns {array} List of browsers that have a container config
+  */
   static browsers(){
     return Browsers.thatHaveAContainer()
   }
 
-  // Find the first, external, IPv4 address on the host running the tests
-  // Won't always be right but close enough.
+  /**
+   * Find the first, external, IPv4 address on the host running the tests
+   * Won't always be right but close enough.
+   * Useful for docker containers to connect out to
+   * @param {string} [family=IPv4]        - IPv4 or IPv6
+   * @param {boolean} [internal=false]    - List internal addresses
+   */
   static ip( family = 'IPv4', internal = false ){
     let ip = _(require('os').networkInterfaces())
       .map(o => _find(o, {internal: internal, family: family}))
@@ -49,7 +67,11 @@ class Page {
     return ip
   }
 
-
+  /**
+   * Do the class setup and await the promise
+   * @param {Object} options    - Page options
+   * @returns {Promise<Page>}   - page instance after async setup has been done
+   */
   static async setupAsync(options){
     let page = new this(options)
     // page.initApp()
@@ -62,12 +84,21 @@ class Page {
   // new Page()
   constructor ( options = {} ){
 
+    /**
+     * Unique ID
+     */
     this.uid = base62(12)
+
+    /**
+     * debug log instance
+     */
     this.debug = debugr(`mhio:page:Page[${this.uid}]`)
     this.debug('creating a new Page with', Object.keys(options))
 
-    // The instance property `promises` will be an array populated with
-    // any initialisation promises.
+    /**
+     * The instance property `promises` will be an array populated with
+     * any initialisation promises.
+     */
     this.promises = []
 
 
@@ -172,9 +203,11 @@ class Page {
     }
   }
 
-  // Setup a browser instance for testing
-  // A constructor can't return a promise to signal
-  // startup, but we can store one for external interrogation
+  /**
+   * Setup a browser instance for testing
+   * A constructor can't return a promise to signal
+   * startup, but we can store one for external interrogation
+   */
   init () {
 
     this.remote_options = {
@@ -212,11 +245,15 @@ class Page {
     return this
   }
 
-  // Does the async initialisation of the class,
-  // Stores promise functions in `this.promises` for serial initialisation
-  // Stores overall status in `this.promise`
+  /**
+   * Does the async initialisation of the class,
+   * Stores promise functions in `this.promises` for serial initialisation
+   * Stores overall status in `this.promise`
+   * @param {*} options 
+   */
   async initAsync( options = {} ){
     this.debug('initAsync', options)
+    
     // Start an app if we were given one, store the promise
     if (this.app) this.promises.push(this.initApp)
 
@@ -247,8 +284,10 @@ class Page {
     }
   }
 
-  // Resolves promise when docker selenium is up.
-  // Also calls `cb_docker` if it exists.
+  /**
+   * Resolves promise when docker selenium is up.
+   * Also calls `cb_docker` if it exists.
+   */
   async initDocker( options = {} ){
     this.debug('initDocker', options)
     if (!options) throw new Error('No options supplied to initDocker')
@@ -270,19 +309,28 @@ class Page {
     }
   }
 
+  /**
+   * 
+   */
   async initWebdriverTest(){
     this.debug('Setting up test stub webdriver with remote options', this.remote_options)
     this.browser = new WebDriverIoStub(this.remote_options)
     return Promise.resolve({state:'running'})
   }
 
+  /**
+   * 
+   */
   async initWebdriverReal(){
     this.debug('Setting up webdriver with remote options', this.remote_options)
     return this.browser = await webdriverio.remote(this.remote_options)
   }
 
-  // Resolves promise when webdriver is ready.
-  // Also calls `cb_wd` if it exists.
+  /**
+   * Resolves promise when webdriver is ready.
+   * Also calls `cb_wd` if it exists.
+   * @param {*} options 
+   */
   async initWebdriver( options = {} ){
     this.debug('initWebdriver', options)
 
@@ -330,14 +378,18 @@ class Page {
   }
 
 
-  // End the browser, usually in `after`
+  /**
+   * End the browser, usually in `after`
+   */
   async end(){
     if (this.browser && this.browser.deleteSession) return this.browser.deleteSession()
     return true
     //return Promise.reject(new Error('No browser instance available'))
   }
 
-  // Close down everything, end the browser and any selenium, usually in `after`
+  /**
+   * Close down everything, end the browser and any selenium, usually in `after`
+   */
   async close(){
     let promises = []
     if (this.browser) promises.push(this.end())
@@ -345,7 +397,10 @@ class Page {
     return Promise.all(promises)
   }
 
-  // Generate a url from the class host/port
+  /**
+   * Generate a url from the class host/port
+   * @param {string} path   - URL Path to append to host
+   */
   generateUrl( path ){
     let port = (this.port) ? `:${this.port}` : ''
     let path_prefix = (this.path) ? this.path : ''
@@ -355,6 +410,10 @@ class Page {
     return url
   }
 
+  /**
+   * Test a URL with needle
+   * @param {string} path   - URL path to append to host
+   */
   async testOpen(path){
     let this_url = this.generateUrl(path)
     this.debug('test open %s', this_url)
@@ -363,31 +422,38 @@ class Page {
     return res
   }
 
-  // ### `.open(path_String)`
-  // Open a path, built from the default URL.
+  /**
+   * Open a path, built from the default URL.
+   * @param {string} path 
+   */
   async open( path ){
     let this_url = this.generateUrl(path)
     this.debug('open %s', this_url)
     this.browser.url(this_url)
     let body = await this.browser.$('body')
     return body.waitForExist(1000)
-    return { status: 0, url: this_url }
+    // return { status: 0, url: this_url }
   }
 
-  // ### `.openUrl(url_String)`
-  // Open a full url, not relying on defaults
+  /**
+   * Open a full url, not relying on default host
+   * @param {string} full_url   - Full URL to open including host
+   */
   async openUrl( full_url ){
     this.debug('open url %s', full_url)
     this.browser.url(full_url)
     let body = await this.browser.$('body')
     return body.waitForExist(1000)
-    return { status: 0, url: full_url }
+    // return { status: 0, url: full_url }
   }
 
   // ### Actions
 
-  // ### `.findElement()`
-  // Select an element  
+  /**
+   * Select an element
+   * @param {string} selector       - CSS/XPath selector
+   * @borrows Page#findElement as Page#$
+   */
   async findElement(selector){
     return this.browser.$(selector)
   }
@@ -395,72 +461,98 @@ class Page {
     return this.findElement(selector)
   }
 
-  // ### `.setValue()`
-  // Find an input element and set the value.
-  // `.fillField()` is an alias
+  /**
+   * Find an input element and set the value.
+   * @param {*} selector 
+   * @param {*} value 
+   * @borrows Page#setValue as Page#fillField
+   */
   async setValue(selector, value) {
     const el = await this.$(selector)
     return el.setValue(value)
   }
-  async fillField(selector, value) { return this.setValue(selector, value) }
+  async fillField(selector, value) {
+    return this.setValue(selector, value)
+  }
 
-  // Find an  element and get the value.
+  /**
+   * Find an  element and get the value.
+   * @param {string} selector       - CSS/XPath selector
+   */
   async getValue(selector) {
     const el = await this.$(selector)
     return el.getValue()
   }
 
-  // ### `.title()`
-  // Get the current pages title.
+  /**
+   * Get the current pages title.
+   */
   async title(){
     return this.browser.getTitle()
   }
 
-  // ### `.exists(css_String)`
-  // Does a css selector exist in the current page.
+  /**
+   * Does a css/xpath selector exist in the current page.
+   * @param {string} selector           - CSS/XPath selector
+   */
   async exists( selector ){
     let elem = await this.findElement(selector)
     debug('elem selector [%s]', selector, elem)
     return elem.isExisting()
   }
 
-  // ### `.wait( css_String, ms_Number` )
-  // Wait for a selector to exist.
-  // `timeout` defaults to 500ms.
+  /**
+   * Wait for a selector to exist
+   * @param {string} selector           - CSS/XPath selector
+   * @param {number} [timeout=500]      - Timeout in milliseconds
+   */
   async wait( selector, timeout = 500 ){
     let elem = await this.findElement(selector)
     return elem.waitForExist(timeout)
   }
 
-  // ### `.html( css_String )`
-  // Get the html from the current browser, with an optional selector.
-  // The selector defaults to `body`.
+  /**
+   * Get the html from the current browser, with an optional selector.
+   * The selector defaults to `body`.
+   * @param {string} [selector=body]    - CSS/XPath selector
+   * @returns {string}                  - HTML of selected element
+   */
   async html( selector = 'body' ){
     let elem = await this.findElement(selector)
     return elem.getHTML()
   }
 
-  // ### `.source()`
-  // Get the complete source of the current browser.
+  /**
+   * Get the complete source of the current browser.
+   * @returns {string} Complete source of page
+   */
   async source(){
     return this.browser.getPageSource()
   }
 
-  // ### `.text()`
-  // Get the text component of an element
+  /**
+   * Get the text component of an element
+   * @param {string} [selector=body]    - CSS/XPath selector
+   * @returns {string}                  - Complete text of selected element
+   */
   async text( selector = 'body' ){
     let elem = await this.findElement(selector)
     return elem.getText()
   }
 
-  // ### `.screenShotPath( paths... )`
-  // Set the default screen shot path
+  /**
+   * Set the default screen shot path
+   * @param  {...any} dir_paths         - Directory strings to `path.join`
+   * @return {string}                   - Complete path
+   */
   screenShotPath( ...dir_paths ){
     return this.screen_shot_path = path.join(...dir_paths)
   }
 
-  // ### `.screenShot( name )`
-  // Take a screenshot of the current browser. Relative paths require `.screenShotPath()` to have been set.
+  /**
+   * Take a screenshot of the current browser. Relative paths require `.screenShotPath()` to have been set.
+   * @param {string} file_name          - File name for screen shot image
+   */
   async screenShot( file_name ){
     if (
       !file_name.startsWith(`.${path.sep}`) &&
@@ -476,6 +568,6 @@ class Page {
 
 
 }
-Page.classInit()
+Page._classInitialisation()
 
 module.exports = { Page }

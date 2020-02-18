@@ -4,19 +4,31 @@ const needle = require('needle')
 
 const { Spawn } = require('@mhio/spawn')
 
-// Manage the selenium docker containers.
-// Should be using an API rather than docker command line
 
-
+/**
+ * Manage the selenium docker containers.
+ * Should be using an API rather than docker command line
+ */
 class DockerManage {
 
   static classInit(){}
 
-  // Run a generic `docker` passing along all args.
+  /**
+   * Run a generic `docker` passing along all args.
+   * @param {array} args              - `docker` argv array
+   */
   static command(args){
     return Spawn.run([ 'docker', ...args ])
   }
 
+  /**
+   * Test a TCP host/port for response
+   * @param {string} host             - Host or IP to test
+   * @param {number} port             - TCP Port number to test
+   * @param {number} [retries=10]     - Number of retries
+   * @param {number} [delay=200]      - Delay between retries in milliseconds
+   * @param {number} [retry=1]        - Current retry count
+   */
   static testTcp( host, port, retries = 10, delay = 200, retry = 1 ){
     return new Promise((resolve, reject)=> {
       debug('testTcp %s - retry %s', port, retry)
@@ -45,6 +57,13 @@ class DockerManage {
     })
   }
 
+  /**
+   * Test a HTTP(S) URL for response
+   * @param {string} url              - URL to test 
+   * @param {number} [retries=10]     - Number of retries
+   * @param {number} [delay=200]      - Delay between retries in milliseconds
+   * @param {number} [retry=1]        - Current retry count
+   */
   static testHttp( url, retries = 10, delay = 200, retry = 1 ){
     return Promise.try(()=> {
       debug('testHttp %s - retry %s', url, retry)
@@ -65,6 +84,12 @@ class DockerManage {
     })
   }
 
+  /**
+   * Bring up a docker container
+   * @param {string} image_name         - Container image name
+   * @param {string} container_name     - Name of the container to run
+   * @param {object} options            - Options passed to `Docker#run`
+   */
   static up( image_name, container_name, options = {} ){
     debug('up docker', container_name)
     return DockerManage.check( container_name ).then(res => {
@@ -88,10 +113,15 @@ class DockerManage {
     })
   }
 
+  /**
+   * Bring down a running docker container
+   * @param {string} container_name   - Name of the container to stop
+   */
   static down( container_name ){
     debug('down docker', container_name)
     return DockerManage.check( container_name ).then(res => {
 
+      let err
       switch( res.state) {
         case 'created': // docker
         case 'exited': // docker
@@ -106,7 +136,7 @@ class DockerManage {
 
         default:
           debug('down Unknown state [%s]. Doing nothing', res.state)
-          let err = new Error(`DockerManage Container "${container_name}" is in an unknown state "${res.state}"`)
+          err = new Error(`DockerManage Container "${container_name}" is in an unknown state "${res.state}"`)
           err.results = res
           throw err
       }
@@ -118,16 +148,28 @@ class DockerManage {
   }
 
 
-  // Docker states
-  // https://github.com/moby/moby/blob/66e6beeb249948634e2815ef5cac97984d5c0d56/container/state.go#L114-L138
+  // 
+  // 
 
-  // "paused" implies running
-  // "restarting" implies running
-  // "removing"
-  // "dead"
-  // "created"
-  // "exited"
+  // 
+  // 
+  // 
+  // 
+  // 
+  // 
 
+  /** 
+   * Check the state of a container
+   * Docker states:
+   * https://github.com/moby/moby/blob/66e6beeb249948634e2815ef5cac97984d5c0d56/container/state.go#L114-L138
+   * `paused` implies running
+   * `restarting` implies running
+   * `removing`
+   * `dead`
+   * `created`
+   * `exited`
+   * @param {string} container_name   - Container name to check
+   */
   static check( container_name ){
     debug('check docker', container_name)
     return DockerManage.command([
@@ -154,30 +196,53 @@ class DockerManage {
   }
 
 
+  /**
+   * Stop a container
+   * @param {string} container_name     - Container name to check
+   * @returns {object}                  - 
+   */
   static stop( container_name ){
     return DockerManage.command([
       'stop',
-      `${container_name}`
+      `${container_name}`,
     ])
     .then(()=> ({ state: 'exited', via: 'stop' }))
   }
 
+  /**
+   * Nicely stop a container
+   * @param {string} container_name     - Container name
+   */
   static stopNice( container_name ){
     return DockerManage.command([
       'stop',
-      `${container_name}`
+      `${container_name}`,
     ])
     .catch(()=> ({}))
     .then(()=> ({ state: 'exited', via: 'stop' }))
   }
 
-
+  /**
+   * Start a container and wait for a TCP port
+   * @param {string} container_name       - Container name
+   * @param {string} host                 - Host name or IP to check
+   * @param {number|string} port          - TCP port to wit on
+   * @param {number} retries              - Number of retries
+   * @param {number} delay                - Delay between retries in milliseconds
+   */
   static startWaitTcp( container_name, host, port, retries, delay ){
     // Some sort of health check would be more useful
     return DockerManage.start(container_name)
       .then(()=> DockerManage.testTcp(host, port, retries, delay))
   }
 
+  /**
+   * Start a container and wait for a URL to respond
+   * @param {string} container_name       - Container name
+   * @param {string} url                  - URL to check
+   * @param {number} retries              - Number of retries
+   * @param {number} delay                - Delay between retries in milliseconds
+   */
   static startWaitHttp( container_name, url, retries, delay ){
     // Some sort of health check would be more useful
     return DockerManage.start(container_name)
@@ -185,6 +250,10 @@ class DockerManage {
   }
 
 
+  /**
+   * Start a container
+   * @param {string} container_name       - Container name
+   */
   static start( container_name ){
     return DockerManage.command([
       'start',
@@ -194,6 +263,10 @@ class DockerManage {
     .then(()=> ({ state: 'running', via: 'start' }))
   }
 
+  /**
+   * Remove a container
+   * @param {string} container_name       - Container name
+   */
   static rm( container_name ){
     return DockerManage.command([
       'rm',
@@ -202,6 +275,10 @@ class DockerManage {
     .then(()=> ({ state: 'none', via: 'rm' }))
   }
 
+  /**
+   * Forcibly removes a container
+   * @param {string} container_name       - Container name
+   */
   static rmf( container_name ){
     return DockerManage.command([
       'rm',
@@ -220,12 +297,25 @@ class DockerManage {
     })
   }
 
+  /**
+   * Run a container and wait for TCP port
+   * @param {string} container_name       - Container name
+   * @param {Object} options              - 
+   * @param {string} host                 - Hostname or IP
+   * @param {string|number} port          - TCP Port
+   */
   static runWaitTcp( container_image, options, host, port ){
     // Some sort of health check would be more useful
     return DockerManage.run(container_image, options)
       .then(()=> DockerManage.testTcp(host, port) )
   }
 
+  /**
+   * Run a container and wait for HTTP URL
+   * @param {string} container_name       - Container name
+   * @param {Object} options              - 
+   * @param {string} url                  - HTTP(S) URL to check
+   */
   static runWaitHttp( container_image, options, url ){
     // Some sort of health check would be more useful
     return DockerManage.run(container_image, options)
@@ -233,6 +323,12 @@ class DockerManage {
   }
 
 
+  /**
+   * Run a container, with command line options
+   * @param {string} image                - Image name
+   * @param {Object} options              - Object of command line args
+   * @returns {Object}                    - Status
+   */
   static run( image, options = {} ){
     return new Promise(resolve => {
 

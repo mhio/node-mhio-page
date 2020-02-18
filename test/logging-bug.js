@@ -4,6 +4,8 @@ async function test(){
     const browser = await require('webdriverio').remote(conf)
     browser.url('/test')
   }
-  catch (e) {}
+  catch (e) {
+    console.error(e)
+  }
 }
 test()

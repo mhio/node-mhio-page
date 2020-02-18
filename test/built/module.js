@@ -1,3 +1,4 @@
+/* global expect */
 const { Docker, Page } = require('../../lib')
 
 describe('built module', function(){

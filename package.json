@@ -9,6 +9,7 @@
     "test:debug": "DEBUG='*' mocha debug",
     "test:coverage": "nyc _mocha test/unit test/int && nyc report -r html && nyc check-coverage",
     "test:built": "set -uex; yarn run build; mocha test/built",
+    "test:lint": "eslint src/ test/",
     "build": "set -uex; yarn run build:code; yarn run build:doc",
     "build:code": "babel -d lib/ src/",
     "build:doc": "set -uex; yarn run build:doc:html; yarn run build:doc:md",
@@ -53,7 +54,7 @@
     "lodash": "^4.17.15",
     "lodash.find": "^4.6.0",
     "mocha": "^6.2.0",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "source-map-support": "^0.5.3"
   },
   "dependencies": {
@@ -62,7 +63,7 @@
     "bluebird": "^3.5.0",
     "debug": "^4.1.1",
     "needle": "^2.2.0",
-    "webdriverio": "^5.13.1"
+    "webdriverio": "~5.13.1"
   },
   "nyc": {
     "per-file": true,
